@@ -1,0 +1,307 @@
+﻿Dany Babikerali, Omar Isa, Chris Reynolds,Gehari Gokavarapu , and Farhan Raza
+
+
+
+
+Chris Individual: 
+
+
+Creating a Study Set for an Upcoming Exam
+* A student wants to prepare for an exam, so they create a flashcard study set in Quizlet.
+* They share it with friends and make it public for other users.
+* They use practice tests and mini-games to reinforce learning.
+* Over time, they rate different study sets and provide feedback on AI-generated sets to improve suggestions.
+* As a result, they perform well in their exams and move towards internships or job opportunities.
+Using AI-Generated Study Sets
+* A student is short on time and opts for an AI-generated study set.
+* They adjust the set based on their preferences and rate it to improve AI recommendations.
+* The AI refines future suggestions based on the student’s study habits.
+* The student efficiently studies, leading to better academic performance.
+Collaborating with Peers
+* A student discovers a shared study set from a classmate and starts using it.
+* They find it helpful and rate it highly.
+* Through engaging with others' study materials, they connect with students sharing similar academic interests.
+* This fosters collaborative learning and helps them build a network.
+Discovering and Using High-Quality Study Sets
+* Users should be able to search for study sets by keywords, subjects, and topics.
+* Study sets should be filterable by ratings, popularity, and recency.
+* Users should be able to edit and personalize study sets.
+* AI should recommend study sets based on past usage and ratings.
+* Users should be able to rate study sets and provide feedback.
+
+
+1. As a student, I want to create study sets so that I can organize my learning materials.
+   * The user should be able to create flashcards with text, images, and audio.
+   * The study set should be editable and savable.
+   * The user should be able to categorize study sets by subjects.
+
+
+1. As a student, I want to share my study sets so that my friends can benefit from them.
+   * The user should have a share button to generate a link.
+   * Study sets should have privacy settings (public, private, friends only).
+
+
+2. As a student, I want to access AI-generated study sets so that I can save time creating my own.
+   * AI should generate study sets based on keywords and topics.
+   * The user should be able to modify AI-generated content.
+   * AI should learn from user ratings to improve suggestions.
+
+
+3. As a student, I want to use mini-games and practice tests so that I can engage with the material interactively.
+   * Users should be able to choose different modes (flashcards, quizzes, timed tests, etc.).
+   * The system should track progress and suggest improvements.
+
+
+Omar Individual Assignment: 
+
+
+Scenarios :
+
+Account Creation & SetupA new user visits the app and clicks sign up. They enter their email, and then create a password, and verify their account through an email link. Once verified they set up their profile by choosing a username and profile picture.
+
+
+An user logs in by entering their email and password. They are taken to their dashboard where they will be able to see a large display of the following: study sets, flash cards setsm and other peopples sets. 
+
+
+The user clicks "Create a New Flashcard Set." They enter a title, then type questions and answers into individual flashcards. They then save and decide whether to keep it private or make it public.
+
+
+A user wants to edit a flashcard set they previously made. They navigate to "My Sets,"then click on the edit button. This will allow them to be able to edit their document as they please.
+
+
+
+
+User Personas: 
+
+
+Name: Sarah Martinez
+Age: 13
+
+
+
+
+Bio:
+Sarah is a straight “A” student who loves making flashcards to study for tests. She likes using the app to create her “own sets and share them with her f riends. Sarah also enjoys rating other people’s sets and leaving comments when she finds good ones. Her favorite thing is the Leaderboard, where she hopes one of her se ts will make it to the top someday.
+
+
+Name: Liam Johnson
+Age: 14
+
+
+
+
+Bio:
+Liam al ways forgets about tests until the night before, so he uses the app to quickly find public flashcard sets. He never makes his own sets, but he always rates and saves the ones that help him. He loves the miniga mes because they make studying less boring.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Name: Ava Patel
+Age: 13
+
+
+
+
+
+
+Bio:
+Ava loves flashcards and makes super detailed sets for every subject. She loves studying and takes her education very seriously. She intends on getting all A’s in her classes and thinks that they best option in doing so is by using flashcards. 
+
+
+
+
+Name: Jake Williams
+Age: 14
+
+
+Bio:
+Jake isn’t a big fan of studying, b ut he loves the minigames on the app. This is where the quizlet minigame feature comes in handy. Jake can play the minigames that are offered and still learn and have fun at the same time. Its a win-win scenario.
+
+
+
+
+
+
+
+
+Gehari individual : 
+Scenarios: 
+
+
+1. Creating an account: A user found the app while trying to study for a final. They created an account in the app by signing up with their email or any other account. After a small 4 step set of instructions, the user is able to navigate the app well and know what the main features of the app are. 
+2. Creating a mock quiz: The user is able to create a mock quiz for themselves using their own study materials. They are able to take the quiz as many times as possible. They can add in anything like pictures, audio, video etc. They are able to save the quiz and come back to it before their tests. 
+3. Social aspect: The user is able to interact with the quizzes and flashcards of the other user provided that they have shared the study materials. They are able to access it whenever they want and study for their tests. 
+4. Taking a break: if the user has been studying for a long time like 2-3 hours, the app has a section that contains minigames incorporated with your study material so the user can take a small break and just test what they know.
+
+
+User 
+
+
+1. As a student and a user I want to be able to create an account either linked to my school account or a personal account.
+2. As a student I want to be able to customize my study sets and keep them either public or private. 
+3. As a student I want to be able to collaborate with my friends or other like minded people who are studying the same subjects.
+4. As a student I want to be able to take a break during studying and maybe play a game for 5 minutes before I go back to studying.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Dany’s Individual Assignment:
+User Stories
+1. Jonathan’s User Story
+As a graduate student, I want to find and download bioinformatics project examples that align with my coursework so that I can better understand complex topics like data analysis, sequence alignment, and computational biology. I also want to participate in discussions to clarify concepts and learn from others' experiences, making my study process more efficient.
+2. Dr. Reham’s User Story
+As a mathematics professor, I want to contribute my expertise by sharing teaching materials and engaging in discussions so that I can support students and collaborate with fellow educators. I also want to explore innovative resources that can enhance my teaching methods and keep up with new trends in mathematical education.
+3. Abidel’s User Story
+As an early entry student, I want to explore graduate-level projects and connect with peers so that I can bridge the gap between undergraduate and graduate studies. I also want access to insights from successful students to better prepare for advanced coursework and feel more confident in academic discussions.
+4. Elena’s User Story
+As an experienced researcher, I want to track user engagement and provide feedback on platform usability so that I can help improve resource accessibility and ensure the platform effectively supports students and educators. I also want to explore high-quality academic resources and collaborate with other researchers to stay updated on the latest trends in my field.
+
+
+User Scenarios
+   1. Jonathan’s Scenario
+Jonathan hears about the platform from a classmate during a study session. Curious, he signs up, browses available bioinformatics resources, and finds a few project examples related to his coursework. He downloads them for reference, joins a discussion about genomic analysis, and saves useful materials to his personal library for future review.
+   2. Dr. Reham’s Scenario
+Dr. Reham joins the platform to share her teaching materials on mathematical modeling and statistics. She starts answering student questions and engaging in discussions with fellow educators. Over time, she receives feedback on her resources, refines her teaching approach, and collaborates with other professors to develop new materials.
+   3. Abidel’s Scenario
+Abidel, an early entry student, struggles to find guidance on transitioning to graduate studies. He signs up for the platform, explores successful student projects, and asks questions in forums. As he gains confidence, he begins contributing his own insights, helping future early entry students navigate similar challenges.
+   4. Elena’s Scenario
+Elena, an active user and researcher, regularly engages with the platform to find and share academic resources. She notices that some content is difficult to navigate and provides feedback on how to improve categorization and search functionality. She also participates in discussions, sharing her expertise while learning from others, and collaborates with fellow researchers to enhance the quality of available materials
+Farhan Individual Assignment:
+Scenarios
+
+
+Creating a Study Set. A college student, Sarah, needs to prepare for her upcoming biology exam. She logs into the app, creates a new study set, and adds key terms with their definitions. She then uses the flashcard feature to quiz herself and track her progress.
+
+
+Joining a Study Group. Alex, a freshman struggling with calculus, discovers a public study group on the app. He joins the group, accesses shared flashcards, and participates in a live quiz session with other students to reinforce learning.
+
+
+Instructor Sharing Materials. Professor Johnson wants to provide his class with study materials. He uploads a comprehensive set of flashcards on economic theories and shares it with his students, ensuring they have easy access to structured content.
+
+
+Tracking Learning Progress. Mia wants to measure her improvement in Spanish vocabulary. She uses the progress tracking feature, which displays her performance over time and highlights areas that need more review.
+
+
+User Stories
+
+
+      1. As a student, I want to create and organize study sets, so I can efficiently prepare for exams. Sarah, a busy pre-med student, often juggles multiple subjects at once. She logs into the app and customizes her study sets by adding terms, definitions, and images for better visualization. She categorizes her sets based on subjects, making it easier to access them when needed.
+
+
+After creating her sets, Sarah uses different study modes—flashcards for memorization, matching games for engagement, and practice tests for assessment. She also enables spaced repetition to ensure she retains information long-term. The app provides her with analytics on her progress, helping her adjust her study habits effectively.
+
+
+      2. As a student, I want to join and participate in study groups, so I can collaborate with my classmates. Alex, a first-year engineering student, finds calculus challenging and struggles with self-study. He discovers a study group within the app where students share their study materials and quiz each other. He joins the group and starts interacting with peers by discussing difficult concepts and answering quiz questions.
+
+
+The app allows him to see group rankings based on quiz scores, which motivates him to stay engaged. He also appreciates the ability to ask questions within the group and receive quick responses from more experienced students. This collaborative approach makes learning more interactive and enjoyable for him.
+
+
+      3. As an instructor, I want to share course materials with my students, so they can access structured learning resources. Professor Johnson teaches an introductory economics course and wants to provide students with study materials. He uploads key concepts, definitions, and practice questions into a shared study set. He categorizes topics by chapters and assigns deadlines for students to complete practice quizzes.
+
+
+By monitoring student progress, he identifies areas where most students struggle and adjusts his teaching accordingly. He also creates live quizzes during lectures to keep students engaged and reinforce key topics. The app’s integration with the university’s learning management system ensures that all students have seamless access to his materials.
+
+
+      4. As a student, I want to track my study progress, so I can improve my performance over time. Mia, a language major, is preparing for a Spanish proficiency test. She frequently uses the app to study vocabulary but wants to ensure she is making progress. She enables the performance tracking feature, which provides insights into her strengths and weaknesses based on quiz results and study time.
+
+
+The app generates reports showing her most and least mastered words, helping her focus on areas needing improvement. It also suggests personalized study plans based on her performance trends. Over time, she sees noticeable improvement in her vocabulary retention, which boosts her confidence for the exam.
+
+
+Features
+
+
+Study Group Collaboration - Allows students to form or join groups, share study sets, and participate in collaborative quizzes.
+
+
+Performance Tracking & Insights - Provides analytics on study habits, quiz performance, and areas for improvement through visual reports and suggestions.
+
+
+
+
+Feature List: 
+1. AI-Generated Study Sets & Personalization
+      * AI automatically creates study sets based on user-inputted topics.
+      * Users can modify AI-generated sets to better fit their learning needs.
+      * AI refines future recommendations based on user ratings and study habits.
+      * Personalized study suggestions based on past interactions.
+2. Interactive Study Features
+      * Users can engage with study materials through practice tests, quizzes, and mini-games.
+      * Auto-scoring and performance tracking to help students measure progress.
+      * Adaptive learning: quizzes adjust difficulty based on user performance.
+      * Gamification elements (badges, streaks) to encourage consistent studying.
+3. Study Group Collaboration
+      * Students can form or join groups, share study sets, and participate in collaborative quizzes.
+      * Can create real-time quiz competitions within study groups, allowing students to challenge each other and track leaderboard rankings.
+      * Has a dedicated space within study groups for students to ask questions, share explanations, and discuss quiz topics.
+      * Allows group members to view shared performance analytics, helping them identify weak areas and improve collectively.
+4. Performance Tracking and Insights
+      * Provides analytics on study habits, quiz performance, and areas for improvement through visual reports and suggestions.
+      * Personalized study sets and quizzes based on past performance and frequently missed questions.
+      * Students can set study goals (e.g., mastering a topic by a specific date) and receive notifications on their progress.
+      * Students can compare their performance with classmates or group members to gauge their relative progress and areas for improvement.
+5. Customizing study sets and user experience: 
+      * Users are able to add whatever information they want and are able to add different types of audio and visual aids to help them learn better.
+      * They should be able to add colors and be creative when designing their set so as to encourage learning.
+
+
+
+
+
+
+6. Minigames and taking a break :
+      * Users should be able to have fun while also learning information in an easy way. They should be able to take a break and feel like they have still learnt something. 
+      * Students can play different games and set a timer to remind them of how long they can take a break and when they have to start studying again. 
+
+
+
+
+
+
+7. Leaderboard 
+      * Users will be able to rate other peoples set and see the most popular sets on the leaderboard. This offers a sort of competitiveness to make the sets as high quality as possible 
+      * Leaderboards also give one a sense of accomplishment and achievement further promoting learning. 
+
+
+8. Public/private sets
+      * Users will be given the option to make their sets be either public or private in case they are dealing with more personalized sets.
+      * This offers a sense of privacy whilst still fostering growth. 
+
+
+9) Personalized Learning Paths
+      * Users can input their academic background and interests during onboarding, and the platform recommends relevant projects, discussions, and materials tailored to their needs.
+10) Mentorship & Peer Support System:
+      * A structured mentorship feature where experienced users (e.g., professors or senior students) can guide newcomers through discussions, Q&A sessions, and project recommendations.
