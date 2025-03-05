@@ -1,0 +1,18 @@
+{% extends 'main.html'%}
+
+{% block content %}
+<h1>Home Template</h1>
+
+    <div>
+        <div>
+            {% for discussion in discussions %}
+            <span>@{{discussion.host.username}}</span>
+                <div>
+                    <h5>{{discussion.id}}-- <a href = "{% url 'discussion' discussion.id %}">{{discussion.name}}</a></h5>
+                    <small>{{discussion.topic.name}}</small>
+                    <hr>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
