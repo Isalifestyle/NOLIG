@@ -49,3 +49,16 @@ class Message(models.Model):
 
     def __str__(self):
         return self.body[0:50]
+
+class flashCard(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.TextField()
+    answer = models.TextField()
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-updated', '-created']
+
+    def __str__(self):
+        return self.question[0:50]
