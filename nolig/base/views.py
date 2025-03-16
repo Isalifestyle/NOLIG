@@ -16,3 +16,6 @@ def discussion(request,pk):
 
     return render(request, 'base/discussion.html',context)
 
+def flashcards(request):
+    return render(request, 'base/flashcards.html')
+
