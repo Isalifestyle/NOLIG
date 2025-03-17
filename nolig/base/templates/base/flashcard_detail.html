@@ -1,0 +1,10 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<h2>{{ set.title }}</h2>
+<ul>
+    {% for flashcard in flashcards %}
+        <li><strong>Q:</strong> {{ flashcard.question }} <br> <strong>A:</strong> {{ flashcard.answer }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

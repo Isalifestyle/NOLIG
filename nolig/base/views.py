@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .models import Discussion
+from django.shortcuts import render, get_object_or_404
+from .models import Discussion, FlashcardSet, FlashCard
 # Create your views here.
 
 
@@ -16,6 +16,15 @@ def discussion(request,pk):
 
     return render(request, 'base/discussion.html',context)
 
-def flashcards(request):
-    return render(request, 'base/flashcards.html')
+
+# Show all flashcard sets
+def flashcard_sets(request):
+    sets = FlashcardSet.objects.all()
+    return render(request, 'base/flashcard_sets.html', {'sets': sets})
+
+# Show flashcards in a set
+def flashcard_detail(request, set_id):
+    flashcard_set = get_object_or_404(FlashcardSet, id=set_id)
+    flashcards = flashcard_set.flashcards.all()  # Thanks to related_name="flashcards"
+    return render(request, 'base/flashcard_detail.html', {'set': flashcard_set, 'flashcards': flashcards})
 
