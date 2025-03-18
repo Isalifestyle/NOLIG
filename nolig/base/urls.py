@@ -1,17 +1,24 @@
 from django.urls import path, include 
+from django.shortcuts import redirect
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import FlashcardSetViewSet, FlashCardViewSet, flashcard_sets, flashcard_detail
 from rest_framework.routers import DefaultRouter
 from .views import FlashcardSetViewSet, FlashCardViewSet
 from . import views
+from .views import serve_react
+
 
 router = DefaultRouter()
-router.register(r'flashcardsets', FlashcardSetViewSet)
+router.register(r'flashcard-sets', FlashcardSetViewSet)
 router.register(r'flashcards', FlashCardViewSet)
 
 urlpatterns = [
     path('', views.home, name='home'),
     path('discussion/<str:pk>', views.discussion, name='discussion'),
-    path('flashcards/', views.flashcard_sets, name='flashcard_sets'),
-    path('flashcards/<int:set_id>/', views.flashcard_detail, name='flashcard_detail'),
-    path('api/', include(router.urls)),
+    path('api/', include(router.urls)),  # API endpoints for flashcards
+    path('api/flashcard-sets/', flashcard_sets, name='flashcard-sets'),
+    path('api/flashcard-sets/<int:set_id>/', flashcard_detail, name='flashcard-detail'),
+    path('flashcards/', serve_react, name='react_frontend'),
 
 ]
