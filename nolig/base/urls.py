@@ -21,4 +21,7 @@ urlpatterns = [
     path('api/flashcard-sets/<int:set_id>/', flashcard_detail, name='flashcard-detail'),
     path('flashcards/', serve_react, name='react_frontend'),
 
+    path('create-discussion/', views.createDiscussion, name="create-discussion"),
+    path('update-discussion/<str:pk>', views.updateDiscussion, name="update-discussion"),
+    path('delete-discussion/<str:pk>', views.deleteDiscussion, name="delete-discussion"),
 ]

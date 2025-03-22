@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Discussion, FlashcardSet, FlashCard
+from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
+from .models import Discussion, Topic, FlashcardSet, FlashCard
 from rest_framework import viewsets
 from .models import FlashCard, FlashcardSet
 from .serializers import FlashCardSerializer, FlashcardSetSerializer
@@ -16,16 +17,27 @@ import os
 from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
+from .forms import DiscussionForm
 
 # Create your views here.
 
-
+# ok
 
 
 def home(request):
-    discussions = Discussion.objects.all()
-    context ={'discussions':discussions}
-    return render(request, 'base/home.html',context)
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+
+    discussions = Discussion.objects.filter(
+        Q(topic__name__icontains=q) |
+        Q(name__icontains=q) |
+        Q(description__icontains=q)
+        )
+
+    topics = Topic.objects.all()
+    discussion_count = discussions.count()
+
+    context ={'discussions':discussions, 'topics': topics, 'discussion_count': discussion_count}
+    return render(request, 'base/home.html', context)
 
 def discussion(request,pk):
     discussion= Discussion.objects.get(id=pk)   
@@ -33,6 +45,37 @@ def discussion(request,pk):
 
     return render(request, 'base/discussion.html',context)
 
+def createDiscussion(request):
+    form = DiscussionForm()
+
+    if request.method == 'POST':
+        form = DiscussionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+    context = {'form': form}
+    return render(request, 'base/discussion_form.html', context)
+
+def updateDiscussion(request, pk):
+    discussion = Discussion.objects.get(id=pk)
+    form = DiscussionForm(instance=discussion)
+
+    if request.method == 'POST':
+        form = DiscussionForm(request.POST, instance=discussion)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+    context = {'form': form}
+    return render(request, 'base/discussion_form.html', context)
+
+def deleteDiscussion(request, pk):
+    discussion = Discussion.objects.get(id=pk)
+    if request.method == 'POST':
+        discussion.delete()
+        return redirect('home')
+    return render(request, 'base/delete.html', {'obj':discussion})
 
 # API view to get all flashcard sets
 @api_view(['GET'])
