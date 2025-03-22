@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>
+</head>
+<body>
+    <div id="root"></div> <!-- React App Mounts Here -->
+    
+    <script src="{% static 'frontend/main.js' %}"></script> <!-- Serve React App -->
+</body>
+</html>
+{% endblock %}
