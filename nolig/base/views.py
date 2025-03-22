@@ -41,7 +41,7 @@ def home(request):
 
 def discussion(request,pk):
     discussion= Discussion.objects.get(id=pk)   
-    context = {'discussion':discussion}
+    context = {'discussion': discussion}
 
     return render(request, 'base/discussion.html',context)
 

@@ -1,4 +1,4 @@
-{% extends 'main.html'%}
+{% extends 'main.html' %}
 
 {% block content %}
 
@@ -33,9 +33,10 @@
           <a href="{% url 'create-discussion' %}">Create Discussion</a>
 
         <div>
+            {% for discussion in discussions %}
             <a href="{% url 'update-discussion' discussion.id %}">Edit</a>
             <a href="{% url 'delete-discussion' discussion.id %}">Delete</a>
-            {% for discussion in discussions %}
+
             <span>@{{discussion.host.username}}</span>
                 <div>
                     <h5>{{discussion.id}}-- <a href = "{% url 'discussion' discussion.id %}">{{discussion.name}}</a></h5>
