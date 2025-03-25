@@ -14,6 +14,11 @@ router.register(r'flashcard-sets', FlashcardSetViewSet)
 router.register(r'flashcards', FlashCardViewSet)
 
 urlpatterns = [
+
+    path('login/', views.loginPage, name="login"),
+    path('logout/', views.logoutUser, name="logout"),
+     path('register/', views.registerPage, name="register"),
+
     path('', views.home, name='home'),
     path('discussion/<str:pk>', views.discussion, name='discussion'),
     path('api/', include(router.urls)),  # API endpoints for flashcards
