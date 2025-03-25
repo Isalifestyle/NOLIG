@@ -1,5 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .models import Discussion, Topic, FlashcardSet, FlashCard
 from rest_framework import viewsets
 from .models import FlashCard, FlashcardSet
@@ -18,12 +22,65 @@ from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from .forms import DiscussionForm
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
 # ok
 
+#Login page
 
+def loginPage(request):
+    page = 'login'
+
+    if request.user.is_authenticated:
+        return redirect('home')
+
+
+    if request.method == 'POST':
+        username = request.POST.get('username').lower()
+        password = request.POST.get('password')
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, 'User does not exist')
+
+        user = authenticate(request, username=username, password=password)   
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Username OR password not exist')
+            
+    context = {'page': page}
+    return render(request, 'base/login_register.html', context)
+
+#Logout
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
+
+#Register
+def registerPage(request):
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'An error occurred during registeration')
+
+    return render(request, 'base/login_register.html', {'form': form})
+
+
+#Home page
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
 
@@ -45,6 +102,7 @@ def discussion(request,pk):
 
     return render(request, 'base/discussion.html',context)
 
+@login_required(login_url='login')
 def createDiscussion(request):
     form = DiscussionForm()
 
@@ -57,9 +115,13 @@ def createDiscussion(request):
     context = {'form': form}
     return render(request, 'base/discussion_form.html', context)
 
+@login_required(login_url='login')
 def updateDiscussion(request, pk):
     discussion = Discussion.objects.get(id=pk)
     form = DiscussionForm(instance=discussion)
+
+    if request.user != discussion.host:
+        return HttpResponse('You are not allowed here!')
 
     if request.method == 'POST':
         form = DiscussionForm(request.POST, instance=discussion)
@@ -70,8 +132,13 @@ def updateDiscussion(request, pk):
     context = {'form': form}
     return render(request, 'base/discussion_form.html', context)
 
+@login_required(login_url='login')
 def deleteDiscussion(request, pk):
     discussion = Discussion.objects.get(id=pk)
+
+    if request.user != discussion.host:
+        return HttpResponse('You are not allowed here!')
+
     if request.method == 'POST':
         discussion.delete()
         return redirect('home')
