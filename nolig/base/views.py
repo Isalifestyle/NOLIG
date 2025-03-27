@@ -92,14 +92,27 @@ def home(request):
 
     topics = Topic.objects.all()
     discussion_count = discussions.count()
+    room_messages = Message.objects.filter(Q(discussion__topic__name__icontains=q))
 
-    context ={'discussions':discussions, 'topics': topics, 'discussion_count': discussion_count}
+    context ={'discussions':discussions, 'topics': topics, 'discussion_count': discussion_count, 'room_messages':room_messages}
     return render(request, 'base/home.html', context)
 
 def discussion(request,pk):
     discussion= Discussion.objects.get(id=pk)   
-    context = {'discussion': discussion}
+    discussion_messages = discussion.me_set.all()
+    participants = discussion.participants.all()
 
+
+    if request.method == 'POST':
+        message = discussion.objects.create(
+            discussion=discussion,
+            user=request.user,
+            body=request.POST.get('body')
+        )
+        discussion.participants.add(request.user)
+        return redirect('discussion', pk=discussion.id)
+
+    context = {'discussion': discussion, 'discussion_messages':discussion_messages, 'participants':participants}
     return render(request, 'base/discussion.html',context)
 
 @login_required(login_url='login')
@@ -178,3 +191,16 @@ def serve_react(request):
             return HttpResponse(file.read(), content_type='text/html')
     else:
         return HttpResponse("React build not found. Run 'npm run build' in the frontend folder.", status=404)
+    
+@login_required(login_url='login')
+def deleteMessage(request, pk):
+    discussion = discussion.objects.get(id=pk)
+
+    if request.user != discussion.user:
+        return HttpResponse('You are not allowed here!')
+
+    if request.method == 'POST':
+        discussion.delete()
+        return redirect('home')
+    return render(request, 'base/delete.html', {'obj':discussion})
+

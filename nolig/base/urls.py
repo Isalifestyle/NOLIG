@@ -28,5 +28,6 @@ urlpatterns = [
 
     path('create-discussion/', views.createDiscussion, name="create-discussion"),
     path('update-discussion/<str:pk>', views.updateDiscussion, name="update-discussion"),
-    path('delete-discussion/<str:pk>', views.deleteDiscussion, name="delete-discussion"),
+    path('delete-message/<str:pk>', views.deleteMessage, name="delete-message")
+    ,
 ]

@@ -11,7 +11,7 @@ class Discussion(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200)
     description= models.TextField(null=True, blank=True)
-    # participants = 
+    participants = models.ManyToManyField(User, related_name='participants', blank=True)
     updated = models.DateTimeField(auto_now=True)
     created=models.DateTimeField(auto_now_add=True)
 
@@ -33,7 +33,8 @@ class FlashcardSet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # The creator of the set
     title = models.CharField(max_length=255)  # Title of the flashcard set
     description = models.TextField(blank=True, null=True)  # Optional description
-    created = models.DateTimeField(auto_now_add=True)  # Timestamp
+    created = models.DateTimeField(auto_now_add=True) # Timestamp
+
 
     def __str__(self):
         return self.title
