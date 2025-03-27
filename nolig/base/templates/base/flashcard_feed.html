@@ -1,0 +1,14 @@
+
+{% block content %}
+    <h2>Flashcard Feed</h2>
+    
+    {% for flashcard_set in flashcard_sets %}
+        <div class="flashcard-set">
+            <h3>{{ flashcard_set.title }}</h3>
+            <p>{{ flashcard_set.description }}</p>
+            <p><small>Created on: {{ flashcard_set.created|date:"F j, Y" }}</small></p>
+        </div>
+    <!-- {% empty %}
+        <p>No flashcard sets available.</p>
+    {% endfor %} -->
+{% endblock %}

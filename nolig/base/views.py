@@ -23,6 +23,7 @@ from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from .forms import DiscussionForm
 from django.contrib.auth.forms import UserCreationForm
+from django.views.static import serve
 
 # Create your views here.
 
@@ -83,6 +84,8 @@ def registerPage(request):
 #Home page
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
+    flashcard_sets = FlashcardSet.objects.all().order_by('-created')
+
 
     discussions = Discussion.objects.filter(
         Q(topic__name__icontains=q) |
@@ -94,12 +97,12 @@ def home(request):
     discussion_count = discussions.count()
     room_messages = Message.objects.filter(Q(discussion__topic__name__icontains=q))
 
-    context ={'discussions':discussions, 'topics': topics, 'discussion_count': discussion_count, 'room_messages':room_messages}
+    context ={'discussions':discussions, 'topics': topics, 'discussion_count': discussion_count, 'room_messages':room_messages,'flashcard_sets': flashcard_sets}
     return render(request, 'base/home.html', context)
 
 def discussion(request,pk):
     discussion= Discussion.objects.get(id=pk)   
-    discussion_messages = discussion.me_set.all()
+    discussion_messages = discussion.message_set.all()
     participants = discussion.participants.all()
 
 
@@ -183,12 +186,13 @@ class FlashCardViewSet(viewsets.ModelViewSet):
     serializer_class = FlashCardSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-def serve_react(request):
-    react_build_path = os.path.join(settings.BASE_DIR, 'frontend/build/index.html')
+def serve_react(request, path='index.html'):
+    react_build_dir = os.path.join(settings.BASE_DIR, 'frontend/build')
 
-    if os.path.exists(react_build_path):
-        with open(react_build_path, 'r') as file:
-            return HttpResponse(file.read(), content_type='text/html')
+    file_path = os.path.join(react_build_dir, path)
+
+    if os.path.exists(file_path):
+        return serve(request, path, document_root=react_build_dir)
     else:
         return HttpResponse("React build not found. Run 'npm run build' in the frontend folder.", status=404)
     
@@ -204,3 +208,10 @@ def deleteMessage(request, pk):
         return redirect('home')
     return render(request, 'base/delete.html', {'obj':discussion})
 
+
+
+def flashcard_feed(request):
+    # Filter flashcard sets to only include those created by the currently logged-in user
+    flashcard_sets = FlashcardSet.objects.all()# Ascending order
+
+    return render(request, 'base/flashcard_feed.html', {'flashcard_sets': flashcard_sets})
