@@ -29,27 +29,38 @@
         </div>
 
        <div>
-        <h5>{{discussion_count}} discussions available</h5>
-          <a href="{% url 'create-discussion' %}">Create Discussion</a>
+            <h5>{{discussion_count}} discussions available</h5>
+            <a href="{% url 'create-discussion' %}">Create Discussion</a>
 
-        <div>
-            {% for discussion in discussions %}
-            {% if request.user == discussion.host %}
-            <a href="{% url 'update-discussion' discussion.id %}">Edit</a>
-            <a href="{% url 'delete-discussion' discussion.id %}">Delete</a>
-            {% endif %}
-            <span>@{{discussion.host.username}}</span>
-                <div>
-                    <h5>{{discussion.id}}-- <a href = "{% url 'discussion' discussion.id %}">{{discussion.name}}</a></h5>
-                    <small>{{discussion.topic.name}}</small>
-                    <h1>Hello world</h1>
-                    <hr>
-                </div>
-            {% endfor %}       
+            <div>
+                {% for discussion in discussions %}
+                {% if request.user == discussion.host %}
+                <a href="{% url 'update-discussion' discussion.id %}">Edit</a>
+                <a href="{% url 'delete-discussion' discussion.id %}">Delete</a>
+                {% endif %}
+                <span>@{{discussion.host.username}}</span>
+                    <div>
+                        <h5>{{discussion.id}}-- <a href = "{% url 'discussion' discussion.id %}">{{discussion.name}}</a></h5>
+                        <small>{{discussion.topic.name}}</small>
+                        <h1>Hello world</h1>
+                        <hr>
+                    </div>
+                {% endfor %}     
 
+            </div>
         </div>
-
-
+        <div>
+            <a href="{% url 'create-flashcard' %}">Create Flashcard</a>
+            <h5>Flashcards</h5>
+            <div>
+                {% for flashcard in flashcards %}
+                    <div>
+                        <h5>{{flashcard.id}}-- <a href="{% url 'flashcard' flashcard.id %}">{{flashcard.name}}</a></h5>
+                        <small>{{flashcard.description}}</small>
+                        <hr>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -21,6 +21,7 @@ urlpatterns = [
 
     path('', views.home, name='home'),
     path('discussion/<str:pk>', views.discussion, name='discussion'),
+    path('flashcard/<str:pk>', views.flashcard, name='flashcard'),
     path('api/', include(router.urls)),  # API endpoints for flashcards
     path('api/flashcard-sets/', flashcard_sets, name='flashcard-sets'),
     path('api/flashcard-sets/<int:set_id>/', flashcard_detail, name='flashcard-detail'),
@@ -29,4 +30,6 @@ urlpatterns = [
     path('create-discussion/', views.createDiscussion, name="create-discussion"),
     path('update-discussion/<str:pk>', views.updateDiscussion, name="update-discussion"),
     path('delete-discussion/<str:pk>', views.deleteDiscussion, name="delete-discussion"),
+
+    path('create-flashcard/', views.createFlashcard, name="create-flashcard"),
 ]

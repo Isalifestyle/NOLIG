@@ -21,7 +21,7 @@ import os
 from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
-from .forms import DiscussionForm
+from .forms import DiscussionForm, FlashcardForm
 from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
@@ -92,8 +92,10 @@ def home(request):
 
     topics = Topic.objects.all()
     discussion_count = discussions.count()
+    flashcards = FlashCard.objects.all()  
 
-    context ={'discussions':discussions, 'topics': topics, 'discussion_count': discussion_count}
+    context ={'discussions':discussions, 'topics': topics, 
+              'discussion_count': discussion_count, 'flashcards': flashcards}
     return render(request, 'base/home.html', context)
 
 def discussion(request,pk):
@@ -101,6 +103,11 @@ def discussion(request,pk):
     context = {'discussion': discussion}
 
     return render(request, 'base/discussion.html',context)
+
+def flashcard(request,pk):
+    flashcard = FlashCard.objects.get(id=pk)
+    context = {'flashcard': flashcard}
+    return render(request, 'base/flashcard.html', context)
 
 @login_required(login_url='login')
 def createDiscussion(request):
@@ -114,6 +121,20 @@ def createDiscussion(request):
 
     context = {'form': form}
     return render(request, 'base/discussion_form.html', context)
+
+
+@login_required(login_url='login')
+def createFlashcard(request):
+    form = FlashcardForm()
+
+    if request.method == 'POST':
+        form = FlashcardForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+    context = {'form': form}
+    return render(request, 'base/flashcard_form.html', context)
 
 @login_required(login_url='login')
 def updateDiscussion(request, pk):
