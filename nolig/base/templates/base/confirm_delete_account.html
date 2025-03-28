@@ -1,0 +1,16 @@
+<!-- base/confirm_delete_account.html -->
+{% extends 'main.html' %}
+
+{% block content %}
+    <h2>Are you sure you want to delete your account?</h2>
+    
+    <p>This action is irreversible. Once your account is deleted, all your data will be permanently removed.</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" style="background-color: red; color: white;">Yes, delete my account</button>
+    </form>
+
+    <br>
+
+{% endblock %}

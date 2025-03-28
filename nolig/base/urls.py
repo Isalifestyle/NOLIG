@@ -18,6 +18,10 @@ urlpatterns = [
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
     path('register/', views.registerPage, name="register"),
+    path('user/<int:user_id>/', views.user_profile, name='user-profile'),
+    path('settings/', views.user_settings, name='user-settings'),
+    path('delete-account/', views.delete_account, name='delete_account'),
+
 
     path('', views.home, name='home'),
     path('discussion/<str:pk>', views.discussion, name='discussion'),
