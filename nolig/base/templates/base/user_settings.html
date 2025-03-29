@@ -1,0 +1,32 @@
+<!-- user_settings.html -->
+{% extends 'main.html' %}
+
+
+{% block content %}
+    <h2>Settings for {{ user.username }}</h2>
+    
+    <div class="profile-details">
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        
+        <!-- You can add more fields here, like bio, profile picture, etc. -->
+        <hr>
+
+        <h3>Change Password</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="password">New Password:</label>
+            <input type="password" name="password" id="password" required>
+            <button type="submit">Change Password</button>
+        </form>
+
+        <hr>
+        
+        <h3>Change Profile Information</h3>
+        <h3>Delete Account</h3>
+        <a href="{% url 'delete_account' %}">
+            <button style="background-color: red; color: white;">Delete Account</button>
+        </a>
+
+    </div>
+{% endblock %}
