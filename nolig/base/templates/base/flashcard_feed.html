@@ -1,6 +1,7 @@
 
 {% block content %}
     <h2>Flashcard Feed</h2>
+    <a href="{% url 'create-flashcard' %}">Create Flashcard</a>
     
     {% for flashcard_set in flashcard_sets %}
         <div class="flashcard-set">
