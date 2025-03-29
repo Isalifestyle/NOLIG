@@ -21,7 +21,7 @@ import os
 from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
-from .forms import DiscussionForm
+from .forms import DiscussionForm, FlashcardForm
 from django.contrib.auth.forms import UserCreationForm
 from django.views.static import serve
 from django.http import HttpResponseForbidden
@@ -147,6 +147,19 @@ def createDiscussion(request):
 
     context = {'form': form}
     return render(request, 'base/discussion_form.html', context)
+
+@login_required(login_url='login')
+def createFlashcard(request):
+    form = FlashcardForm()
+
+    if request.method == 'POST':
+        form = FlashcardForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+    context = {'form': form}
+    return render(request, 'base/flashcard_form.html', context)
 
 @login_required(login_url='login')
 def updateDiscussion(request, pk):
