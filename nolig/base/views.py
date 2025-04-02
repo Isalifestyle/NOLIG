@@ -6,25 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Discussion, Topic, FlashcardSet, FlashCard
 from rest_framework import viewsets
-from .models import FlashCard, FlashcardSet
 from .serializers import FlashCardSerializer, FlashcardSetSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import FlashcardSet, FlashCard, Message
-from .serializers import FlashcardSetSerializer, FlashCardSerializer
-import os
-from django.shortcuts import render
-from django.conf import settings
-from django.http import HttpResponse, JsonResponse
 from .forms import DiscussionForm, FlashcardForm
 from django.contrib.auth.forms import UserCreationForm
 from django.views.static import serve
-from django.http import HttpResponseForbidden
 
 # Create your views here.
 
@@ -191,41 +177,40 @@ def deleteDiscussion(request, pk):
     return render(request, 'base/delete.html', {'obj':discussion})
 
 # API view to get all flashcard sets
-@api_view(['GET'])
-def flashcard_sets(request):
-    sets = FlashcardSet.objects.all()
-    serializer = FlashcardSetSerializer(sets, many=True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# def flashcard_sets(request):
+#     sets = FlashcardSet.objects.all()
+#     serializer = FlashcardSetSerializer(sets, many=True)
+#     return Response(serializer.data)
 
-# API view to get all flashcards in a set
-@api_view(['GET'])
-def flashcard_detail(request, set_id):
-    flashcard_set = get_object_or_404(FlashcardSet, id=set_id)
-    flashcards = flashcard_set.flashcards.all()
-    serializer = FlashCardSerializer(flashcards, many=True)
-    return Response(serializer.data)
+# # API view to get all flashcards in a set
+# @api_view(['GET'])
+# def flashcard_detail(request, set_id):
+#     flashcard_set = get_object_or_404(FlashcardSet, id=set_id)
+#     flashcards = flashcard_set.flashcards.all()
+#     serializer = FlashCardSerializer(flashcards, many=True)
+#     return Response(serializer.data)
 
 # ViewSets for the API (used for Django REST Framework's router)
-class FlashcardSetViewSet(viewsets.ModelViewSet):
-    queryset = FlashcardSet.objects.all()
-    serializer_class = FlashcardSetSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+# class FlashcardSetViewSet(viewsets.ModelViewSet):
+#     queryset = FlashcardSet.objects.all()
+#     serializer_class = FlashcardSetSerializer
+#     permission_classes = [IsAuthenticatedOrReadOnly]
 
-class FlashCardViewSet(viewsets.ModelViewSet):
-    queryset = FlashCard.objects.all()
-    serializer_class = FlashCardSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+# class FlashCardViewSet(viewsets.ModelViewSet):
+#     queryset = FlashCard.objects.all()
+#     serializer_class = FlashCardSerializer
+#     permission_classes = [IsAuthenticatedOrReadOnly]
 
-def serve_react(request, path='index.html'):
-    react_build_dir = os.path.join(settings.BASE_DIR, 'frontend/build')
-    file_path = os.path.join(react_build_dir, path)
+# def serve_react(request, path='index.html'):
+#     react_build_dir = os.path.join(settings.BASE_DIR, 'frontend/build')
+#     file_path = os.path.join(react_build_dir, path)
 
-    if os.path.exists(file_path):
-        return serve(request, path, document_root=react_build_dir)
-    else:
-        return HttpResponse("React build not found. Run 'npm run build' in the frontend folder.", status=404)
+#     if os.path.exists(file_path):
+#         return serve(request, path, document_root=react_build_dir)
+#     else:
+#         return HttpResponse("React build not found. Run 'npm run build' in the frontend folder.", status=404)
     
-@login_required(login_url='login')
 @login_required(login_url='login')
 def deleteMessage(request, pk):
     try:
