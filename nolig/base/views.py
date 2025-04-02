@@ -4,82 +4,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Discussion, Topic, FlashcardSet, FlashCard
-from rest_framework import viewsets
-from .models import FlashCard, FlashcardSet
-from .serializers import FlashCardSerializer, FlashcardSetSerializer
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .models import Discussion, Topic, FlashcardSet
+from .models import FlashcardSet
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import FlashcardSet, FlashCard, Message
-from .serializers import FlashcardSetSerializer, FlashCardSerializer
-import os
+from .models import FlashcardSet, Message
 from django.shortcuts import render
-from django.conf import settings
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from .forms import DiscussionForm, FlashcardForm
 from django.contrib.auth.forms import UserCreationForm
-from django.views.static import serve
-from django.http import HttpResponseForbidden
-
-# Create your views here.
-
-# ok
-
-#Login page
-
-def loginPage(request):
-    page = 'login'
-
-    if request.user.is_authenticated:
-        return redirect('home')
 
 
-    if request.method == 'POST':
-        username = request.POST.get('username').lower()
-        password = request.POST.get('password')
-
-        try:
-            user = User.objects.get(username=username)
-        except:
-            messages.error(request, 'User does not exist')
-
-        user = authenticate(request, username=username, password=password)   
-
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.error(request, 'Username OR password not exist')
-            
-    context = {'page': page}
-    return render(request, 'base/login_register.html', context)
-
-#Logout
-def logoutUser(request):
-    logout(request)
-    return redirect('home')
-
-#Register
-def registerPage(request):
-    form = UserCreationForm()
-
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.username = user.username.lower()
-            user.save()
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.error(request, 'An error occurred during registeration')
-
-    return render(request, 'base/login_register.html', {'form': form})
 
 
 def home(request):
@@ -191,41 +126,55 @@ def deleteDiscussion(request, pk):
     return render(request, 'base/delete.html', {'obj':discussion})
 
 # API view to get all flashcard sets
-@api_view(['GET'])
-def flashcard_sets(request):
-    sets = FlashcardSet.objects.all()
-    serializer = FlashcardSetSerializer(sets, many=True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# def flashcard_sets(request):
+#     sets = FlashcardSet.objects.all()
+#     serializer = FlashcardSetSerializer(sets, many=True)
+#     return Response(serializer.data)
 
-# API view to get all flashcards in a set
-@api_view(['GET'])
-def flashcard_detail(request, set_id):
-    flashcard_set = get_object_or_404(FlashcardSet, id=set_id)
-    flashcards = flashcard_set.flashcards.all()
-    serializer = FlashCardSerializer(flashcards, many=True)
-    return Response(serializer.data)
+# # API view to get all flashcards in a set
+# @api_view(['GET'])
+# def flashcard_detail(request, set_id):
+#     flashcard_set = get_object_or_404(FlashcardSet, id=set_id)
+#     flashcards = flashcard_set.flashcards.all()
+#     serializer = FlashCardSerializer(flashcards, many=True)
+#     return Response(serializer.data)
 
 # ViewSets for the API (used for Django REST Framework's router)
-class FlashcardSetViewSet(viewsets.ModelViewSet):
-    queryset = FlashcardSet.objects.all()
-    serializer_class = FlashcardSetSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+# class FlashcardSetViewSet(viewsets.ModelViewSet):
+#     queryset = FlashcardSet.objects.all()
+#     serializer_class = FlashcardSetSerializer
+#     permission_classes = [IsAuthenticatedOrReadOnly]
 
-class FlashCardViewSet(viewsets.ModelViewSet):
-    queryset = FlashCard.objects.all()
-    serializer_class = FlashCardSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+# class FlashCardViewSet(viewsets.ModelViewSet):
+#     queryset = FlashCard.objects.all()
+#     serializer_class = FlashCardSerializer
+#     permission_classes = [IsAuthenticatedOrReadOnly]
 
-def serve_react(request, path='index.html'):
-    react_build_dir = os.path.join(settings.BASE_DIR, 'frontend/build')
-    file_path = os.path.join(react_build_dir, path)
+# def serve_react(request, path='index.html'):
+#     react_build_dir = os.path.join(settings.BASE_DIR, 'frontend/build')
+#     file_path = os.path.join(react_build_dir, path)
 
-    if os.path.exists(file_path):
-        return serve(request, path, document_root=react_build_dir)
-    else:
-        return HttpResponse("React build not found. Run 'npm run build' in the frontend folder.", status=404)
-    
-@login_required(login_url='login')
+#     if os.path.exists(file_path):
+#         return serve(request, path, document_root=react_build_dir)
+#     else:
+#         return HttpResponse("React build not found. Run 'npm run build' in the frontend folder.", status=404)
+def registerPage(request):
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'An error occurred during registeration')
+
+    return render(request, 'base/login_register.html', {'form': form})
+
 @login_required(login_url='login')
 def deleteMessage(request, pk):
     try:
@@ -264,6 +213,39 @@ def user_profile(request, user_id):
         'user': user
     }
     return render(request, 'base/user_profile.html', context)
+
+def loginPage(request):
+    page = 'login'
+
+    if request.user.is_authenticated:
+        return redirect('home')
+
+
+    if request.method == 'POST':
+        username = request.POST.get('username').lower()
+        password = request.POST.get('password')
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, 'User does not exist')
+
+        user = authenticate(request, username=username, password=password)   
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Username OR password not exist')
+            
+    context = {'page': page}
+    return render(request, 'base/login_register.html', context)
+
+#Logout
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
+
 
 @login_required(login_url='login')
 def user_settings(request):
