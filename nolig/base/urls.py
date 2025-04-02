@@ -21,7 +21,8 @@ urlpatterns = [
     path('user/<int:user_id>/', views.user_profile, name='user-profile'),
     path('settings/', views.user_settings, name='user-settings'),
     path('delete-account/', views.delete_account, name='delete_account'),
-
+    path('flashcards/<int:set_id>/', views.flashcard_set_detail, name='flashcard-set-detail'),
+    path('flashcards/<int:set_id>/', views.serve_react),
 
     path('', views.home, name='home'),
     path('discussion/<str:pk>', views.discussion, name='discussion'),

@@ -218,7 +218,6 @@ class FlashCardViewSet(viewsets.ModelViewSet):
 
 def serve_react(request, path='index.html'):
     react_build_dir = os.path.join(settings.BASE_DIR, 'frontend/build')
-
     file_path = os.path.join(react_build_dir, path)
 
     if os.path.exists(file_path):
@@ -282,3 +281,11 @@ def delete_account(request):
 
     # If GET request, show the confirmation page
     return render(request, 'base/confirm_delete_account.html')
+def flashcard_set_detail(request, set_id):
+    flashcard_set = get_object_or_404(FlashcardSet, id=set_id)
+    flashcards = flashcard_set.flashcards.all()  # Only flashcards for this set
+    
+    return render(request, 'base/flashcard_set_detail.html', {
+        'flashcard_set': flashcard_set,
+        'flashcards': flashcards
+    })

@@ -1,0 +1,16 @@
+{% block content %}
+    <h2>{{ flashcard_set.title }}</h2>
+    <p>{{ flashcard_set.description }}</p>
+
+    {% for flashcard in flashcards %}
+        <div class="flashcard">
+            <h4>Q: {{ flashcard.question }}</h4>
+            <p><strong>A:</strong> {{ flashcard.answer }}</p>
+        </div>
+        <hr>
+    {% empty %}
+        <p>No flashcards available in this set.</p>
+    {% endfor %}
+
+    <a href="{% url 'flashcard-feed' %}">Back to Flashcard Sets</a>
+{% endblock %}
