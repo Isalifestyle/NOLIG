@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import flashcard_feed  
 
 
 #Not sure what this does but for react app 
@@ -28,7 +29,7 @@ urlpatterns = [
     path('delete-message/<str:pk>', views.deleteMessage, name="delete-message"),
 
     # Flashcard feed route
-    # path('flashfeed/', flashcard_feed, name='flashcard-feed'),
+    path('flashfeed/', flashcard_feed, name='flashcard-feed'),
     path('create-flashcard/', views.createFlashcard, name="create-flashcard"),
     # React route for all unmatched paths
     # re_path(r'^(?!create-discussion|update-discussion|delete-message|discussion).*$', serve_react),
