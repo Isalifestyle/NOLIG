@@ -1,18 +1,153 @@
 {% extends 'main.html' %}
+{% load static %}
 
 {% block content %}
-    <h2>{{ flashcard_set.title }}</h2>
-    <p>{{ flashcard_set.description }}</p>
 
-    {% for flashcard in flashcards %}
-        <div class="flashcard">
-            <h4>Q: {{ flashcard.question }}</h4>
-            <p><strong>A:</strong> {{ flashcard.answer }}</p>
-        </div>
-        <hr>
-    {% empty %}
-        <p>No flashcards available in this set.</p>
-    {% endfor %}
+<h2>{{ flashcard_set.title }}</h2>
+<p>{{ flashcard_set.description }}</p>
 
-    <a href="{% url 'flashcard-feed' %}">Back to Flashcard Sets</a>
+<!-- Progress indicator: "1 / 10" -->
+<div id="progress-indicator">
+    <span id="current-card">1</span> / <span id="total-cards">1</span>
+</div>
+
+<!-- Flashcard Container (with flip) -->
+<div id="flashcard-container" class="flashcard-container">
+    <div class="flashcard-inner">
+        <div class="flashcard-front"></div>
+        <div class="flashcard-back"></div>
+    </div>
+</div>
+
+<!-- Navigation buttons -->
+<button id="prev-btn">Previous</button>
+<button id="next-btn">Next</button>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const setId = "{{ flashcard_set.id }}";
+    
+        // DOM elements
+        const flashcardContainer = document.getElementById('flashcard-container');
+        const flashcardInner = flashcardContainer.querySelector('.flashcard-inner');
+        const flashcardFront = flashcardInner.querySelector('.flashcard-front');
+        const flashcardBack = flashcardInner.querySelector('.flashcard-back');
+    
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        // Progress indicator
+        const currentCardSpan = document.getElementById('current-card');
+        const totalCardsSpan = document.getElementById('total-cards');
+    
+        let flashcardsData = [];
+        let currentIndex = 0;
+    
+        // Fetch from your API
+        fetch(`/api/flashcard-sets/${setId}/`)
+            .then(response => response.json())
+            .then(data => {
+                flashcardsData = data;
+                totalCardsSpan.textContent = data.length;
+                updateFlashcard(0, false);
+            })
+            .catch(error => {
+                console.error('Error fetching flashcards:', error);
+                flashcardFront.textContent = 'Error loading flashcards.';
+            });
+    
+        // Display a particular flashcard
+        function updateFlashcard(index, withAnimation = true) {
+            // If no data, handle gracefully
+            if (!flashcardsData.length) {
+                flashcardFront.textContent = 'No Flashcards';
+                flashcardBack.textContent = '';
+                currentCardSpan.textContent = '0';
+                adjustCardHeight(); // So it’s not stuck at some old height
+                return;
+            }
+    
+            // Circular navigation
+            if (index < 0) index = flashcardsData.length - 1;
+            if (index >= flashcardsData.length) index = 0;
+            currentIndex = index;
+    
+            // Reset flip so front is visible
+            flashcardInner.classList.remove('flipped');
+    
+            // Update progress text
+            currentCardSpan.textContent = currentIndex + 1;
+    
+            if (withAnimation) {
+                flashcardContainer.classList.add('fade-out');
+    
+                setTimeout(() => {
+                    flashcardContainer.classList.remove('fade-out');
+                    flashcardContainer.classList.add('slide-in');
+    
+                    // Set question/answer
+                    const card = flashcardsData[currentIndex];
+                    flashcardFront.innerHTML = `<h4>Q: ${card.question}</h4>`;
+                    flashcardBack.innerHTML  = `<p><strong>A:</strong> ${card.answer}</p>`;
+    
+                    // Recompute heights after content changes
+                    adjustCardHeight();
+    
+                    // Remove slide-in after animation
+                    setTimeout(() => {
+                        flashcardContainer.classList.remove('slide-in');
+                    }, 400);
+                }, 300);
+            } else {
+                // No animation (initial load)
+                const card = flashcardsData[currentIndex];
+                flashcardFront.innerHTML = `<h4>Q: ${card.question}</h4>`;
+                flashcardBack.innerHTML  = `<p><strong>A:</strong> ${card.answer}</p>`;
+    
+                adjustCardHeight();
+            }
+        }
+    
+        // Flip card on click
+        flashcardContainer.addEventListener('click', () => {
+            flashcardInner.classList.toggle('flipped');
+            adjustCardHeight(); 
+            // So if the back side is bigger, we expand. 
+            // If front was bigger, we might shrink. 
+        });
+    
+        // Prev/Next with circular
+        prevBtn.addEventListener('click', () => {
+            updateFlashcard(currentIndex - 1, true);
+        });
+        nextBtn.addEventListener('click', () => {
+            updateFlashcard(currentIndex + 1, true);
+        });
+    
+        // Measure front/back heights and set the container to the larger
+        function adjustCardHeight() {
+            // Remember if we were flipped
+            const wasFlipped = flashcardInner.classList.contains('flipped');
+            
+            // 1) Show front to measure
+            flashcardInner.classList.remove('flipped');
+            const frontHeight = flashcardFront.scrollHeight;
+    
+            // 2) Flip to measure back
+            flashcardInner.classList.add('flipped');
+            const backHeight = flashcardBack.scrollHeight;
+    
+            // 3) Restore original flip state
+            if (!wasFlipped) {
+                flashcardInner.classList.remove('flipped');
+            }
+    
+            // 4) Use the larger
+            const maxHeight = Math.max(frontHeight, backHeight);
+            flashcardInner.style.height = maxHeight + 'px';
+        }
+    });
+    </script>
+    
+<a href="{% url 'flashcard-feed' %}">Back to Flashcard Sets</a>
+
 {% endblock %}

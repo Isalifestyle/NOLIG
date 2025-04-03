@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import flashcard_feed  
+from .views import flashcard_feed,flashcard_sets,flashcard_detail 
 
 
 #Not sure what this does but for react app 
@@ -34,7 +34,7 @@ urlpatterns = [
     # React route for all unmatched paths
     # re_path(r'^(?!create-discussion|update-discussion|delete-message|discussion).*$', serve_react),
     # path('api/', include(router.urls)),
-    # path('api/flashcard-sets/', flashcard_sets, name='flashcard-sets'),
-    # path('api/flashcard-sets/<int:set_id>/', flashcard_detail, name='flashcard-detail'),
-    # path('api/flashcards/', flashcard_feed, name='flashcard-feed'),
+    path('api/flashcard-sets/', flashcard_sets, name='flashcard-sets'),
+    path('api/flashcard-sets/<int:set_id>/', flashcard_detail, name='flashcard-detail'),
+    path('api/flashcards/', flashcard_feed, name='flashcard-feed'),
 ]
