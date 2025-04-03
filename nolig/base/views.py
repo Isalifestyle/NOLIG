@@ -8,7 +8,13 @@ from .models import Discussion, Topic, FlashcardSet, Message, FlashCard
 from django.http import HttpResponse
 from .forms import DiscussionForm, FlashcardForm, FlashcardSetForm
 from django.contrib.auth.forms import UserCreationForm
-
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .models import FlashcardSet, FlashCard
+from .serializers import FlashcardSetSerializer, FlashCardSerializer
 
 
 
@@ -190,6 +196,32 @@ def deleteDiscussion(request, pk):
         discussion.delete()
         return redirect('home')
     return render(request, 'base/delete.html', {'obj':discussion})
+
+# API view to get all flashcard sets
+@api_view(['GET'])
+def flashcard_sets(request):
+    sets = FlashcardSet.objects.all()
+    serializer = FlashcardSetSerializer(sets, many=True)
+    return Response(serializer.data)
+
+# API view to get all flashcards in a set
+@api_view(['GET'])
+def flashcard_detail(request, set_id):
+    flashcard_set = get_object_or_404(FlashcardSet, id=set_id)
+    flashcards = flashcard_set.flashcards.all()
+    serializer = FlashCardSerializer(flashcards, many=True)
+    return Response(serializer.data)
+
+# ViewSets for the API (used for Django REST Framework's router)
+class FlashcardSetViewSet(viewsets.ModelViewSet):
+    queryset = FlashcardSet.objects.all()
+    serializer_class = FlashcardSetSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+class FlashCardViewSet(viewsets.ModelViewSet):
+    queryset = FlashCard.objects.all()
+    serializer_class = FlashCardSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 def registerPage(request):
