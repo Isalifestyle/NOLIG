@@ -22,11 +22,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('discussion/<str:pk>', views.discussion, name='discussion'),
     
-    # API endpoints
-    # path('api/', include(router.urls)),
-    # path('api/flashcard-sets/', flashcard_sets, name='flashcard-sets'),
-    # path('api/flashcard-sets/<int:set_id>/', flashcard_detail, name='flashcard-detail'),
-    # path('api/flashcards/', flashcard_feed, name='flashcard-feed'),
     # Routes related to discussions
     path('create-discussion/', views.createDiscussion, name="create-discussion"),
     path('update-discussion/<str:pk>', views.updateDiscussion, name="update-discussion"),
@@ -35,7 +30,5 @@ urlpatterns = [
     # Flashcard feed route
     # path('flashfeed/', flashcard_feed, name='flashcard-feed'),
     path('create-flashcard/', views.createFlashcard, name="create-flashcard"),
-    # React route for all unmatched paths
-    # re_path(r'^(?!create-discussion|update-discussion|delete-message|discussion).*$', serve_react),
-    # path('flashcards/<int:set_id>/', views.serve_react),
+
 ]

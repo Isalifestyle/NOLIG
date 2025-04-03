@@ -176,40 +176,7 @@ def deleteDiscussion(request, pk):
         return redirect('home')
     return render(request, 'base/delete.html', {'obj':discussion})
 
-# API view to get all flashcard sets
-# @api_view(['GET'])
-# def flashcard_sets(request):
-#     sets = FlashcardSet.objects.all()
-#     serializer = FlashcardSetSerializer(sets, many=True)
-#     return Response(serializer.data)
 
-# # API view to get all flashcards in a set
-# @api_view(['GET'])
-# def flashcard_detail(request, set_id):
-#     flashcard_set = get_object_or_404(FlashcardSet, id=set_id)
-#     flashcards = flashcard_set.flashcards.all()
-#     serializer = FlashCardSerializer(flashcards, many=True)
-#     return Response(serializer.data)
-
-# ViewSets for the API (used for Django REST Framework's router)
-# class FlashcardSetViewSet(viewsets.ModelViewSet):
-#     queryset = FlashcardSet.objects.all()
-#     serializer_class = FlashcardSetSerializer
-#     permission_classes = [IsAuthenticatedOrReadOnly]
-
-# class FlashCardViewSet(viewsets.ModelViewSet):
-#     queryset = FlashCard.objects.all()
-#     serializer_class = FlashCardSerializer
-#     permission_classes = [IsAuthenticatedOrReadOnly]
-
-# def serve_react(request, path='index.html'):
-#     react_build_dir = os.path.join(settings.BASE_DIR, 'frontend/build')
-#     file_path = os.path.join(react_build_dir, path)
-
-#     if os.path.exists(file_path):
-#         return serve(request, path, document_root=react_build_dir)
-#     else:
-#         return HttpResponse("React build not found. Run 'npm run build' in the frontend folder.", status=404)
     
 @login_required(login_url='login')
 def deleteMessage(request, pk):
