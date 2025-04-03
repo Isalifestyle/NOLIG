@@ -1,18 +1,28 @@
 {% extends 'main.html' %}
 
 {% block content %}
+    <a href="{% url 'update-flashcard-set' flashcard_set.id %}">Update Flashcard Set</a>
     <h2>{{ flashcard_set.title }}</h2>
     <p>{{ flashcard_set.description }}</p>
-
+    <a href="{% url 'create-flashcard' %}">Create Flashcard</a>
     {% for flashcard in flashcards %}
         <div class="flashcard">
             <h4>Q: {{ flashcard.question }}</h4>
             <p><strong>A:</strong> {{ flashcard.answer }}</p>
+            <a href="{% url 'delete-flashcard' flashcard.id %}">Delete Flashcard</a>
+            <br>
+            <a href="{% url 'update-flashcard' flashcard.id %}">Update Flashcard</a>
         </div>
         <hr>
     {% empty %}
         <p>No flashcards available in this set.</p>
     {% endfor %}
 
+    {% if request.user == flashcard_set.user %}
+        <a href="{% url 'delete-flashcard-set' flashcard_set.id %}">Delete This Set?</a>
+    {% endif %}
+    <br>
+    <br>
     <a href="{% url 'flashcard-feed' %}">Back to Flashcard Sets</a>
+    
 {% endblock %}

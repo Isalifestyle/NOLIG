@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Discussion, FlashCard
+from .models import Discussion, FlashCard, FlashcardSet
 
 class DiscussionForm(ModelForm):
     class Meta:
@@ -9,4 +9,9 @@ class DiscussionForm(ModelForm):
 class FlashcardForm(ModelForm):
     class Meta:
         model = FlashCard
+        fields = '__all__'
+
+class FlashcardSetForm(ModelForm):
+    class Meta:
+        model = FlashcardSet
         fields = '__all__'
