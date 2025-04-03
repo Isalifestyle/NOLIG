@@ -1,35 +1,40 @@
-from django.urls import path, include 
-from django.shortcuts import redirect
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import FlashcardSetViewSet, FlashCardViewSet, flashcard_sets, flashcard_detail
-from rest_framework.routers import DefaultRouter
-from .views import FlashcardSetViewSet, FlashCardViewSet
+from django.urls import path
 from . import views
-from .views import serve_react
+from .views import flashcard_feed  
 
 
-router = DefaultRouter()
-router.register(r'flashcard-sets', FlashcardSetViewSet)
-router.register(r'flashcards', FlashCardViewSet)
+#Not sure what this does but for react app 
+# router = DefaultRouter()
+# router.register(r'flashcard-sets', FlashcardSetViewSet)
+# router.register(r'flashcards', FlashCardViewSet)
 
 urlpatterns = [
 
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
-     path('register/', views.registerPage, name="register"),
+    path('register/', views.registerPage, name="register"),
+    path('user/<int:user_id>/', views.user_profile, name='user-profile'),
+    path('settings/', views.user_settings, name='user-settings'),
+    path('delete-account/', views.delete_account, name='delete_account'),
+    path('flashcards/<int:set_id>/', views.flashcard_set_detail, name='flashcard-set-detail'),
+
 
     path('', views.home, name='home'),
     path('discussion/<str:pk>', views.discussion, name='discussion'),
-    path('flashcard/<str:pk>', views.flashcard, name='flashcard'),
-    path('api/', include(router.urls)),  # API endpoints for flashcards
-    path('api/flashcard-sets/', flashcard_sets, name='flashcard-sets'),
-    path('api/flashcard-sets/<int:set_id>/', flashcard_detail, name='flashcard-detail'),
-    path('flashcards/', serve_react, name='react_frontend'),
-
+    
+  
+    # Routes related to discussions
     path('create-discussion/', views.createDiscussion, name="create-discussion"),
     path('update-discussion/<str:pk>', views.updateDiscussion, name="update-discussion"),
     path('delete-discussion/<str:pk>', views.deleteDiscussion, name="delete-discussion"),
 
+    # Flashcard feed route
+    path('flashfeed/', flashcard_feed, name='flashcard-feed'),
     path('create-flashcard/', views.createFlashcard, name="create-flashcard"),
+    # React route for all unmatched paths
+    # re_path(r'^(?!create-discussion|update-discussion|delete-message|discussion).*$', serve_react),
+    # path('api/', include(router.urls)),
+    # path('api/flashcard-sets/', flashcard_sets, name='flashcard-sets'),
+    # path('api/flashcard-sets/<int:set_id>/', flashcard_detail, name='flashcard-detail'),
+    # path('api/flashcards/', flashcard_feed, name='flashcard-feed'),
 ]

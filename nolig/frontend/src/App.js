@@ -1,15 +1,16 @@
-import React from "react";
-import FlashcardList from "./Flashcard"; // Import the FlashcardList component
-import "./styles/flashcards.css";
-
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import FlashcardList from './FlashcardList'; // Component that displays flashcards
 
 function App() {
-  return (
-    <div className="App">
-      <h1>Flashcards</h1>
-      <FlashcardList />
-    </div>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<FlashcardFeed />} />
+                <Route path="/flashcards/:setId" element={<FlashcardList />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;

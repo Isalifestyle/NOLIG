@@ -6,9 +6,7 @@ class DiscussionForm(ModelForm):
         model = Discussion
         fields = '__all__'
 
-
 class FlashcardForm(ModelForm):
     class Meta:
         model = FlashCard
         fields = '__all__'
-    

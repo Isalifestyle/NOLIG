@@ -1,10 +1,14 @@
-
 {% block content %}
     <h2>Flashcard Feed</h2>
+    <a href="{% url 'create-flashcard' %}">Create Flashcard</a>
     
     {% for flashcard_set in flashcard_sets %}
         <div class="flashcard-set">
-            <h3>{{ flashcard_set.title }}</h3>
+            <h3>
+                <a href="{% url 'flashcard-set-detail' flashcard_set.id %}">
+                    {{ flashcard_set.title }}
+                </a>
+            </h3>
             <p>{{ flashcard_set.description }}</p>
             <p><small>Created on: {{ flashcard_set.created|date:"F j, Y" }}</small></p>
         </div>
