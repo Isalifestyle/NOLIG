@@ -1,0 +1,10 @@
+{% for reply in replies %}
+<div class="comment">
+  <small>
+    <!-- Temporarily not linking to the user profile to avoid errors -->
+    @{{ reply.user }} | {{ reply.created|timesince }} ago
+  </small>
+  <p>{{ reply.body }}</p>
+  <hr>
+</div>
+{% endfor %}
