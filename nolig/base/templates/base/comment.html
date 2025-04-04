@@ -1,0 +1,59 @@
+<div class="comment">
+    <!-- Show the username and link to their profile -->
+    <small>
+      <a href="{% url 'user_profile' message.user.id %}">
+         @{{ message.user.username }}
+      </a>
+      | {{ message.created|timesince }} ago
+    </small>
+
+    <p>{{ message.body }}</p>
+
+    {% if request.user == message.user %}
+        <a href="{% url 'delete-message' message.id %}">Delete</a>
+    {% endif %}
+
+    <!-- "Reply" button if logged in -->
+    {% if request.user.is_authenticated %}
+      <button onclick="toggleReplyForm('{{ message.id }}')">Reply</button>
+    {% endif %}
+
+    <!-- This message's child replies -->
+    {% if message.replies.exists %}
+      <div class="reply-list">
+        {% if depth < max_depth %}
+          <!-- Recursively include comment.html for each child reply -->
+          {% for child in message.replies.all %}
+            {% include 'base/comment.html' with message=child depth=depth|add:1 max_depth=max_depth %}
+          {% endfor %}
+        {% else %}
+          <div id="reply-list-{{ message.id }}" 
+               class="reply-list" 
+               data-loaded="false">
+            <!-- This is where new replies will be appended -->
+          </div>
+          
+          <button onclick="toggleReplies('{{ message.id }}')" 
+                  id="view-btn-{{ message.id }}">
+            View replies ({{ message.replies.count }})
+          </button>
+          <!-- In your JavaScript, you could expand or load them via AJAX. -->
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- Hidden reply form for this message -->
+    {% if request.user.is_authenticated %}
+    <div id="reply-form-{{ message.id }}" 
+         class="reply-form" 
+         style="display: none;">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <input type="hidden" name="parent_id" value="{{ message.id }}">
+            <textarea name="body" rows="2" placeholder="Reply to @{{ message.user.username }}"></textarea>
+            <button type="submit">Post Reply</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+<hr>

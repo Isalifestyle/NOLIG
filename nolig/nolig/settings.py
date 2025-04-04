@@ -39,12 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'base.apps.BaseConfig',
-    'corsheaders',
+    'nolig'
 
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  
     "whitenoise.middleware.WhiteNoiseMiddleware",  # Add this line
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -55,9 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+
 ROOT_URLCONF = 'nolig.urls'
 
 TEMPLATES = [
@@ -127,11 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "frontend", "build", "static"),  # Serve React static files
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-TEMPLATES[0]['DIRS'].append(os.path.join(BASE_DIR, 'frontend/build'))
+
 
 
 # Default primary key field type

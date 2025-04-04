@@ -8,7 +8,14 @@ from .models import Discussion, Topic, FlashcardSet, Message, FlashCard
 from django.http import HttpResponse
 from .forms import DiscussionForm, FlashcardForm, FlashcardSetForm
 from django.contrib.auth.forms import UserCreationForm
-
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .models import FlashcardSet, FlashCard
+from .serializers import FlashcardSetSerializer, FlashCardSerializer
+from django.http import HttpResponseBadRequest
 
 
 
@@ -39,29 +46,36 @@ def home(request):
         'flashcard_sets': flashcard_sets  # Passing filtered flashcards to the template
     }
     return render(request, 'base/home.html', context)
+
 def discussion(request, pk):
-    discussion = Discussion.objects.get(id=pk)  # Get the specific discussion
-    discussion_messages = discussion.message_set.all()  # Get all messages in the discussion
-    participants = discussion.participants.all()  # Get all participants of the discussion
+    discussion = Discussion.objects.get(id=pk)
+    # Filter top-level messages
+    discussion_messages = Message.objects.filter(discussion=discussion, parent__isnull=True)
+    participants = discussion.participants.all()
 
-    # Handle the case when the form is submitted (POST request)
     if request.method == 'POST':
-        # Create a new message in the 'Message' model, linked to the current discussion
-        message = Message.objects.create(
-            discussion=discussion,  # Associate the message with the discussion
-            user=request.user,  # The current logged-in user
-            body=request.POST.get('body')  # The content of the message
+        body_text = request.POST.get('body')
+        parent_id = request.POST.get('parent_id')  # If replying to a comment
+        message = Message(
+            discussion=discussion,
+            user=request.user,
+            body=body_text
         )
-        discussion.participants.add(request.user)  # Add the user as a participant
-        return redirect('discussion', pk=discussion.id)  # Redirect to the same discussion
+        if parent_id:
+            try:
+                parent_message = Message.objects.get(id=parent_id, discussion=discussion)
+                message.parent = parent_message
+            except Message.DoesNotExist:
+                pass
+        message.save()
+        discussion.participants.add(request.user)
+        return redirect('discussion', pk=discussion.id)
 
-    # Context for rendering the page
     context = {
-        'discussion': discussion, 
-        'discussion_messages': discussion_messages, 
+        'discussion': discussion,
+        'discussion_messages': discussion_messages,
         'participants': participants
     }
-    
     return render(request, 'base/discussion.html', context)
 
 
@@ -191,6 +205,32 @@ def deleteDiscussion(request, pk):
         return redirect('home')
     return render(request, 'base/delete.html', {'obj':discussion})
 
+# API view to get all flashcard sets
+@api_view(['GET'])
+def flashcard_sets(request):
+    sets = FlashcardSet.objects.all()
+    serializer = FlashcardSetSerializer(sets, many=True)
+    return Response(serializer.data)
+
+# API view to get all flashcards in a set
+@api_view(['GET'])
+def flashcard_detail(request, set_id):
+    flashcard_set = get_object_or_404(FlashcardSet, id=set_id)
+    flashcards = flashcard_set.flashcards.all()
+    serializer = FlashCardSerializer(flashcards, many=True)
+    return Response(serializer.data)
+
+# ViewSets for the API (used for Django REST Framework's router)
+class FlashcardSetViewSet(viewsets.ModelViewSet):
+    queryset = FlashcardSet.objects.all()
+    serializer_class = FlashcardSetSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+class FlashCardViewSet(viewsets.ModelViewSet):
+    queryset = FlashCard.objects.all()
+    serializer_class = FlashCardSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
 
 def registerPage(request):
     form = UserCreationForm()
@@ -245,7 +285,7 @@ def user_profile(request, user_id):
     context = {
         'user': user
     }
-    return render(request, 'base/user_profile.html', context)
+    return render(request, 'base/user_settings.html', context)
 
 def loginPage(request):
     page = 'login'
@@ -304,3 +344,19 @@ def flashcard_set_detail(request, set_id):
         'flashcard_set': flashcard_set,
         'flashcards': flashcards
     })
+
+def load_more_replies(request):
+    parent_id = request.GET.get('parent_id')
+    if not parent_id:
+        return HttpResponseBadRequest("Missing parent_id")
+
+    try:
+        parent_message = Message.objects.get(id=parent_id)
+    except Message.DoesNotExist:
+        return HttpResponseBadRequest("Parent message not found")
+
+    # For simplicity, load all replies, but you can filter if needed
+    replies = parent_message.replies.all()
+
+    # Render a partial HTML template with these replies
+    return render(request, 'base/replies_partial.html', {'replies': replies})
