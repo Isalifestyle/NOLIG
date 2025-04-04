@@ -20,15 +20,23 @@ class Discussion(models.Model):
         return self.name
     
     
+# Add a parent field that references self (so a Message can be the child of another Message). If parent is NULL, it’s a top-level comment; if not, it’s a reply.
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE)
     body = models.TextField()
+    parent = models.ForeignKey(
+        'self', 
+        on_delete=models.CASCADE, 
+        null=True, 
+        blank=True, 
+        related_name='replies'
+    )
     updated = models.DateTimeField(auto_now=True)
-    created=models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.body[0:50]
+        return self.body[:50]
 
 class FlashcardSet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # The creator of the set

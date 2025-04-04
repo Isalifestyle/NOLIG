@@ -20,6 +20,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .models import FlashcardSet, FlashCard
 from .serializers import FlashcardSetSerializer, FlashCardSerializer
+from django.http import HttpResponseBadRequest
 
 
 
@@ -50,29 +51,36 @@ def home(request):
         'flashcard_sets': flashcard_sets  # Passing filtered flashcards to the template
     }
     return render(request, 'base/home.html', context)
+
 def discussion(request, pk):
-    discussion = Discussion.objects.get(id=pk)  # Get the specific discussion
-    discussion_messages = discussion.message_set.all()  # Get all messages in the discussion
-    participants = discussion.participants.all()  # Get all participants of the discussion
+    discussion = Discussion.objects.get(id=pk)
+    # Filter top-level messages
+    discussion_messages = Message.objects.filter(discussion=discussion, parent__isnull=True)
+    participants = discussion.participants.all()
 
-    # Handle the case when the form is submitted (POST request)
     if request.method == 'POST':
-        # Create a new message in the 'Message' model, linked to the current discussion
-        message = Message.objects.create(
-            discussion=discussion,  # Associate the message with the discussion
-            user=request.user,  # The current logged-in user
-            body=request.POST.get('body')  # The content of the message
+        body_text = request.POST.get('body')
+        parent_id = request.POST.get('parent_id')  # If replying to a comment
+        message = Message(
+            discussion=discussion,
+            user=request.user,
+            body=body_text
         )
-        discussion.participants.add(request.user)  # Add the user as a participant
-        return redirect('discussion', pk=discussion.id)  # Redirect to the same discussion
+        if parent_id:
+            try:
+                parent_message = Message.objects.get(id=parent_id, discussion=discussion)
+                message.parent = parent_message
+            except Message.DoesNotExist:
+                pass
+        message.save()
+        discussion.participants.add(request.user)
+        return redirect('discussion', pk=discussion.id)
 
-    # Context for rendering the page
     context = {
-        'discussion': discussion, 
-        'discussion_messages': discussion_messages, 
+        'discussion': discussion,
+        'discussion_messages': discussion_messages,
         'participants': participants
     }
-    
     return render(request, 'base/discussion.html', context)
 
 
@@ -270,3 +278,19 @@ def flashcard_set_detail(request, set_id):
         'flashcard_set': flashcard_set,
         'flashcards': flashcards
     })
+
+def load_more_replies(request):
+    parent_id = request.GET.get('parent_id')
+    if not parent_id:
+        return HttpResponseBadRequest("Missing parent_id")
+
+    try:
+        parent_message = Message.objects.get(id=parent_id)
+    except Message.DoesNotExist:
+        return HttpResponseBadRequest("Parent message not found")
+
+    # For simplicity, load all replies, but you can filter if needed
+    replies = parent_message.replies.all()
+
+    # Render a partial HTML template with these replies
+    return render(request, 'base/replies_partial.html', {'replies': replies})
