@@ -219,7 +219,7 @@ def user_profile(request, user_id):
     context = {
         'user': user
     }
-    return render(request, 'base/user_profile.html', context)
+    return render(request, 'base/user_settings.html', context)
 
 def loginPage(request):
     page = 'login'
