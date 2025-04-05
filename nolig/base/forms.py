@@ -1,10 +1,16 @@
 from django.forms import ModelForm
 from .models import Discussion, FlashCard, FlashcardSet
+from django import forms
 
-class DiscussionForm(ModelForm):
+class DiscussionForm(forms.ModelForm):
+    topic = forms.CharField(
+        max_length=200,
+        help_text="Enter a topic (e.g., Math, History...)"
+    )
+
     class Meta:
         model = Discussion
-        fields = '__all__'
+        fields = ['name', 'topic', 'description']
 
 class FlashcardForm(ModelForm):
     class Meta:

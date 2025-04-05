@@ -3,12 +3,7 @@
 {% block content %}
 
 <style>
-    .home-container{
-        display: grid;
-        grid-template-columns: 1fr 3fr 1fr; /* 3 columns: left, middle, and right */
-        gap: 10px; /* Optional: to add spacing between columns */
-    }
-
+  
     .right-column {
         grid-column: 3; /* Place the content in the right-most column */
     }
@@ -18,6 +13,20 @@
         flex-direction: column; /* Stack the content vertically */
         gap: 10px; /* Optional: add some space between the stacked items */
     }
+    .home-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 20px;
+    padding-top: 2rem;
+}
+
+.home-container > div {
+    background: white;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
     
 </style>
 

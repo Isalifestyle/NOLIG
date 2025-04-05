@@ -1,14 +1,63 @@
-<h3>Recent Activity</h3>
-    <hr>
-        {% for message in room_messages %}
-            <div>
-             <small>@{{message.user}}  {{message.created|timesince}}</small>
-                  <small>replied to "{{message.discussion}}"</small>
-
-                  <p>{{message}}</p>
-                  {% if request.user == message.user %}
-                  <a href="{% url 'delete-message' message.id %}">Delete</a>
-                  {% endif %}
-                  <hr>
+<style>
+    .activity-feed {
+        background-color: #e9f2fb;
+        border-radius: var(--border-radius);
+        padding: 1rem 1.5rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    
+    .activity-item {
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #dce4ec;
+    }
+    
+    .activity-meta {
+        font-size: 0.85rem;
+        color: #666;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    
+    .activity-message {
+        margin: 0.25rem 0;
+        font-size: 0.95rem;
+        color: #333;
+    }
+    
+    .activity-delete {
+        font-size: 0.8rem;
+        color: var(--accent);
+        text-decoration: none;
+    }
+    
+    .activity-delete:hover {
+        text-decoration: underline;
+    }
+    </style>
+    
+    <div class="activity-feed">
+        <h3>📌 Recent Activity</h3>
+        <hr>
+    
+        {% for message in room_messages|slice:":5" %}
+            <div class="activity-item">
+                <div class="activity-meta">
+                    <span>@{{ message.user }}</span>
+                    <span>{{ message.created|timesince }} ago</span>
                 </div>
-            {% endfor %}
+                <div class="activity-meta">
+                    <small>commented in "<strong>{{ message.discussion.name }}</strong>"</small>
+                </div>
+                <p class="activity-message">{{ message.body }}</p>
+    
+                {% if request.user == message.user %}
+                    <a href="{% url 'delete-message' message.id %}" class="activity-delete">Delete</a>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No recent activity yet.</p>
+        {% endfor %}
+    </div>
+    

@@ -1,12 +1,42 @@
-<h3>Browse Topics</h3>
-            <hr>
-
-            <div>
-                <a href="{% url 'home' %}" >All</a>
-            </div>
-
-            {% for topic in topics %}
-                <div>
-                    <a href="{% url 'home' %}?q={{topic.name}}" >{{topic.name}}</a>
-                </div>
-            {% endfor %}
+<style>
+    .topics-container {
+        background-color: #e9f2fb;
+        border-radius: var(--border-radius);
+        padding: 1rem 1.5rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    
+    .topic-title {
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    
+    .topic-link {
+        display: block;
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 0.3rem;
+        border-radius: var(--border-radius);
+        color: var(--text-dark);
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+    }
+    
+    .topic-link:hover {
+        background-color: #d6e6f3;
+    }
+    </style>
+    
+    <div class="topics-container">
+        <h3 class="topic-title">📚 Browse Topics</h3>
+        <a href="{% url 'home' %}" class="topic-link">All</a>
+    
+        {% for topic in topics %}
+            <a href="{% url 'home' %}?q={{ topic.name }}" class="topic-link">
+                {{ topic.name }}
+            </a>
+        {% empty %}
+            <p>No topics found.</p>
+        {% endfor %}
+    </div>
+    

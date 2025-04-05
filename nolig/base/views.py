@@ -86,7 +86,13 @@ def createDiscussion(request):
     if request.method == 'POST':
         form = DiscussionForm(request.POST)
         if form.is_valid():
-            form.save()
+            topic_name = form.cleaned_data['topic']
+            topic, created = Topic.objects.get_or_create(name=topic_name)
+
+            discussion = form.save(commit=False)
+            discussion.host = request.user
+            discussion.topic = topic
+            discussion.save()
             return redirect('home')
 
     context = {'form': form}

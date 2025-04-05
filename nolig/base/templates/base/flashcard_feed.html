@@ -1,19 +1,62 @@
-{% block content %}
-    <h2>Flashcard Feed</h2>
-    <a href="{% url 'create-flashcard-set' %}">Create Flashcard Set</a>
+<style>
+    .flashcard-set {
+        background-color: #e9f2fb;
+        border-radius: var(--border-radius);
+        padding: 1rem 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        position: relative;
+        transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        cursor: pointer;
+    }
     
-    {% for flashcard_set in flashcard_sets %}
-        <div class="flashcard-set">
-            <h3>
-                <a href="{% url 'flashcard-set-detail' flashcard_set.id %}">
-                    {{ flashcard_set.title }}
-                </a>
-            </h3>
-            <p>{{ flashcard_set.description }}</p>
-            <p><small>Created on: {{ flashcard_set.created|date:"F j, Y" }}</small></p>
-        </div>
-        <hr>
-    {% empty %}
-        <p>No flashcard sets available.</p>
-    {% endfor %}
-{% endblock %}
+    .flashcard-set:hover {
+        background-color: #f0f4f8;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .flashcard-set-link {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+    
+    .flashcard-set > *:not(.flashcard-set-link) {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .flashcard-set h3 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin: 0 0 0.5rem 0;
+    }
+    
+    .flashcard-set p {
+        margin: 0.25rem 0;
+        font-size: 0.95rem;
+        color: #444;
+    }
+    </style>
+    
+    {% block content %}
+        <h2>📚 Flashcard Feed</h2>
+        <a href="{% url 'create-flashcard-set' %}" class="btn">+ Create Flashcard Set</a>
+        <br><br>
+    
+        {% for flashcard_set in flashcard_sets %}
+            <div class="flashcard-set">
+                <a href="{% url 'flashcard-set-detail' flashcard_set.id %}" class="flashcard-set-link"></a>
+    
+                <h3>{{ flashcard_set.title }}</h3>
+                <p>{{ flashcard_set.description }}</p>
+                <p><small>📅 {{ flashcard_set.created|date:"F j, Y" }}</small></p>
+            </div>
+        {% empty %}
+            <p>No flashcard sets available.</p>
+        {% endfor %}
+    {% endblock %}
+    

@@ -1,13 +1,59 @@
 {% extends 'main.html' %}
 
 {% block content %}
+<style>
+    .form-wrapper {
+        background-color: white;
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        max-width: 600px;
+        margin: 2rem auto;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
 
-<div>
+    .form-wrapper h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-wrapper label {
+        font-weight: bold;
+        display: block;
+        margin-top: 1rem;
+    }
+
+    .form-wrapper input[type="text"],
+    .form-wrapper input[type="password"],
+    .form-wrapper textarea,
+    .form-wrapper select {
+        width: 100%;
+        padding: 0.6rem;
+        border: 1px solid #ccc;
+        border-radius: var(--border-radius);
+        margin-top: 0.5rem;
+    }
+
+    .form-wrapper input[type="submit"] {
+        margin-top: 1.5rem;
+        padding: 0.6rem 1.2rem;
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+    }
+
+    .form-wrapper input[type="submit"]:hover {
+        background-color: #2980b9;
+    }
+</style>
+
+<div class="form-wrapper">
+    <h2>Create or Update</h2>
     <form method="POST" action="">
         {% csrf_token %}
-        {{form.as_p}}
+        {{ form.as_p }}
         <input type="submit" value="Submit" />
     </form>
 </div>
-
 {% endblock content %}

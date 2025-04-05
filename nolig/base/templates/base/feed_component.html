@@ -1,13 +1,113 @@
+<style>
+.discussion-card {
+    background-color: #e9f2fb;
+    border-radius: var(--border-radius);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    position: relative; /* Required for overlay link */
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.discussion-card:hover {
+    background-color: #f0f4f8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.discussion-card-link {
+    position: absolute;
+    inset: 0;
+    z-index: 2; /* Make sure it’s above background but below other content */
+    text-decoration: none;
+    color: inherit;
+    display: block;       /* Required for full area */
+}
+/* Ensure content inside the card is above the link layer */
+.discussion-card > *:not(.discussion-card-link) {
+    position: relative;
+    z-index: 3;
+}
+
+.discussion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width:100px;
+}
+
+.discussion-meta {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+    max-width:60px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+}
+
+.discussion-title{
+    max-width:250px;
+}
+.discussion-title a {
+    color: var(--text-dark);
+    text-decoration: none;
+
+}
+
+
+.discussion-actions a {
+    margin-left: 10px;
+    font-size: 0.9rem;
+    color: var(--accent);
+    text-decoration: none;
+    z-index: 3;
+}
+
+.discussion-actions a:hover {
+    text-decoration: underline;
+}
+
+</style>
 {% for discussion in discussions %}
-            {% if request.user == discussion.host %}
-            <a href="{% url 'update-discussion' discussion.id %}">Edit</a>
-            <a href="{% url 'delete-discussion' discussion.id %}">Delete</a>
+<div class="discussion-card">
+    <!-- Invisible link over the whole card -->
+    <a href="{% url 'discussion' discussion.id %}" class="discussion-card-link"></a>
+
+    <div class="discussion-header">
+        <div class="discussion-meta">
+            {% if discussion.host.profile.avatar.url %}
+                <img src="{{ discussion.host.profile.avatar.url }}" alt="Avatar" class="avatar">
             {% endif %}
-            <span>@{{discussion.host.username}}</span>
-                <div>
-                    <h5>{{discussion.id}}-- <a href = "{% url 'discussion' discussion.id %}">{{discussion.name}}</a></h5>
-                    <small>{{discussion.topic.name}}</small>
-                    <h1>Hello world</h1>
-                    <hr>
-                </div>
-            {% endfor %}       
+            <span>@{{ discussion.host.username }}</span>
+        </div>
+
+        {% if request.user == discussion.host %}
+        <div class="discussion-actions">
+            <a href="{% url 'update-discussion' discussion.id %}" onclick="event.stopPropagation();">Edit</a>
+            <a href="{% url 'delete-discussion' discussion.id %}" onclick="event.stopPropagation();">Delete</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="discussion-title">
+        <a href="{% url 'discussion' discussion.id %}" onclick="event.stopPropagation();">
+            {{ discussion.name }}
+        </a>
+    </div>
+    
+
+    <div class="discussion-meta">
+        Topic: {{ discussion.topic.name }}
+    </div>
+</div>
+{% endfor %}
+

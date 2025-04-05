@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="{% static 'css/flashcards.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
 
     <title>NOLIG</title>
     <style>
@@ -52,24 +53,25 @@
 
 
     </style>
+
 </head>
 
 <body>
+    <div class="main-container">
+        {% include 'navbar.html' %}
 
-    {% include 'navbar.html'%}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
-    {% if messages %}
-    <ul class="messgaes">
-        {% for message in messages %}
-        <li> {{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% block content %}
-
-    {% endblock %}
-
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
 </body>
 
 </html>

@@ -1,32 +1,116 @@
-<!-- user_settings.html -->
 {% extends 'main.html' %}
 
-
 {% block content %}
-    <h2>Settings for {{ user.username }}</h2>
-    
-    <div class="profile-details">
+<style>
+.settings-container {
+    max-width: 700px;
+    margin: 3rem auto;
+    background-color: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px rgba(0,0,0,0.06);
+    font-family: var(--font-stack);
+}
+
+.settings-section {
+    margin-bottom: 2.5rem;
+}
+
+.settings-section h3 {
+    margin-bottom: 1rem;
+    color: var(--primary);
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.5rem;
+}
+
+.settings-section p {
+    margin-bottom: 0.75rem;
+}
+
+.settings-section input[type="password"],
+.settings-section input[type="text"],
+.settings-section input[type="email"],
+.settings-section input[type="file"] {
+    width: 100%;
+    max-width: 350px;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.settings-section button {
+    background-color: var(--accent);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.settings-section button:hover {
+    background-color: #2980b9;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+.avatar-preview {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+    margin-bottom: 1rem;
+}
+</style>
+
+<div class="settings-container">
+    <h2>Account Settings for @{{ user.username }}</h2>
+
+    <!-- Profile Info -->
+    <div class="settings-section">
+        <h3>Profile Info</h3>
         <p><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Email:</strong> {{ user.email }}</p>
-        
-        <!-- You can add more fields here, like bio, profile picture, etc. -->
-        <hr>
 
+        {% if user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}" class="avatar-preview" alt="Your Avatar">
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="avatar">Update Profile Picture:</label>
+            <input type="file" name="avatar" id="avatar">
+            <button type="submit" name="update_avatar">Upload</button>
+        </form>
+    </div>
+
+    <!-- Password Change -->
+    <div class="settings-section">
         <h3>Change Password</h3>
         <form method="POST">
             {% csrf_token %}
             <label for="password">New Password:</label>
             <input type="password" name="password" id="password" required>
-            <button type="submit">Change Password</button>
+            <button type="submit" name="update_password">Change Password</button>
         </form>
-
-        <hr>
-        
-        <h3>Change Profile Information</h3>
-        <h3>Delete Account</h3>
-        <a href="{% url 'delete_account' %}">
-            <button style="background-color: red; color: white;">Delete Account</button>
-        </a>
-
     </div>
+
+    <!-- Delete Account -->
+    <div class="settings-section">
+        <h3>Danger Zone</h3>
+        <p>Deleting your account will remove all your data including flashcards and discussions.</p>
+        <a href="{% url 'delete_account' %}">
+            <button class="delete-btn">Delete Account</button>
+        </a>
+    </div>
+</div>
 {% endblock %}
