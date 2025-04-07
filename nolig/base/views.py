@@ -13,7 +13,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import FlashcardSet, FlashCard
+from .models import FlashcardSet, FlashCard, Profile
 from .serializers import FlashcardSetSerializer, FlashCardSerializer
 from django.http import HttpResponseBadRequest
 
@@ -328,9 +328,24 @@ def logoutUser(request):
 
 @login_required(login_url='login')
 def user_settings(request):
-    # You can pass the user object to the template to display information
-    return render(request, 'base/user_settings.html', {'user': request.user})
+    # Get or create the user's profile
+    profile, _ = Profile.objects.get_or_create(user=request.user)
 
+    if request.method == 'POST':
+        if 'update_avatar' in request.POST:
+            avatar = request.FILES.get('avatar')
+            if avatar:
+                profile.avatar = avatar
+                profile.save()
+        elif 'update_password' in request.POST:
+            new_password = request.POST.get('password')
+            if new_password:
+                request.user.set_password(new_password)
+                request.user.save()
+                login(request, request.user)  # Optional: re-login
+                messages.success(request, "Password updated successfully.")
+
+    return render(request, 'base/user_settings.html', {'user': request.user})
 
 @login_required
 def delete_account(request):

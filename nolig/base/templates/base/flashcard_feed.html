@@ -7,56 +7,76 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         position: relative;
         transition: box-shadow 0.3s ease, background-color 0.3s ease;
-        cursor: pointer;
+        overflow: hidden;
     }
     
     .flashcard-set:hover {
         background-color: #f0f4f8;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
     }
     
-    .flashcard-set-link {
+    /* Full-card clickable link */
+    .flashcard-set a.full-card-link {
         position: absolute;
         inset: 0;
         z-index: 1;
-        text-decoration: none;
-        color: inherit;
-        display: block;
     }
     
-    .flashcard-set > *:not(.flashcard-set-link) {
+    /* Elevate inner content above the full-card link */
+    .flashcard-set > *:not(.full-card-link) {
         position: relative;
         z-index: 2;
     }
     
     .flashcard-set h3 {
-        font-size: 1.25rem;
-        font-weight: bold;
-        margin: 0 0 0.5rem 0;
-    }
-    
-    .flashcard-set p {
-        margin: 0.25rem 0;
-        font-size: 0.95rem;
-        color: #444;
-    }
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+    display: inline-block; /* 👈 Auto-size to content */
+}
+
+.flashcard-set h3 a {
+    color: var(--text-dark);
+    text-decoration: none;
+    z-index: 3;
+    position: relative;
+}
+
+.flashcard-set h3 a:hover {
+    text-decoration: underline;
+}
+
+.flashcard-set p {
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+    color: #444;
+    display: inline-block; /* 👈 Optional: only if you want it to shrink to text too */
+}
     </style>
+    <h2>📚 Flashcard Feed</h2>
+    <a href="{% url 'create-flashcard-set' %}" class="btn">+ Create Flashcard Set</a>
+    <br><br>
     
-    {% block content %}
-        <h2>📚 Flashcard Feed</h2>
-        <a href="{% url 'create-flashcard-set' %}" class="btn">+ Create Flashcard Set</a>
-        <br><br>
+    {% for flashcard_set in flashcard_sets %}
+        <div class="flashcard-set">
+            <!-- Full box clickable -->
+            <a href="{% url 'flashcard-set-detail' flashcard_set.id %}" class="full-card-link"></a>
     
-        {% for flashcard_set in flashcard_sets %}
-            <div class="flashcard-set">
-                <a href="{% url 'flashcard-set-detail' flashcard_set.id %}" class="flashcard-set-link"></a>
-    
-                <h3>{{ flashcard_set.title }}</h3>
-                <p>{{ flashcard_set.description }}</p>
-                <p><small>📅 {{ flashcard_set.created|date:"F j, Y" }}</small></p>
-            </div>
-        {% empty %}
-            <p>No flashcard sets available.</p>
-        {% endfor %}
-    {% endblock %}
+            <!-- Title also a clickable link -->
+            <h3>
+                <a href="{% url 'flashcard-set-detail' flashcard_set.id %}">
+                    {{ flashcard_set.title }}
+                </a>
+            </h3>
+            <br>
+
+            <p>{{ flashcard_set.description }}</p>
+            <br>
+
+            <p><small>📅 {{ flashcard_set.created|date:"F j, Y" }}</small></p>
+        </div>
+    {% empty %}
+        <p>No flashcard sets available.</p>
+    {% endfor %}
     

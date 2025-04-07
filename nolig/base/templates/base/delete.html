@@ -2,11 +2,70 @@
 
 {% block content %}
 
-<form method="POST" action="">
-    {% csrf_token %}
-    <p>Are you sure you want to delete "{{obj}}"?</p>
-    <a href="{{request.META.HTTP_REFERER}}">Go Back</a>
-    <input type="submit" value="Confirm" />
-</form>
+<style>
+    .delete-container {
+        background-color: white;
+        padding: 2rem;
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        max-width: 500px;
+        margin: 3rem auto;
+        text-align: center;
+    }
 
-{% endblock content %}
+    .delete-container p {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-dark);
+    }
+
+    .delete-container .button-row {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .delete-btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .confirm-btn {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+    .confirm-btn:hover {
+        background-color: #c0392b;
+    }
+
+    .cancel-btn {
+        background-color: var(--accent);
+        color: white;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: var(--border-radius);
+        font-weight: bold;
+    }
+
+    .cancel-btn:hover {
+        background-color: #2980b9;
+    }
+</style>
+
+<div class="delete-container">
+    <form method="POST" action="">
+        {% csrf_token %}
+        <p>Are you sure you want to delete <strong>"{{ obj }}"</strong>?</p>
+        
+        <div class="button-row">
+            <a href="{{ request.META.HTTP_REFERER }}" class="cancel-btn">Cancel</a>
+            <input type="submit" value="Confirm" class="delete-btn confirm-btn" />
+        </div>
+    </form>
+</div>
+
+{% endblock %}

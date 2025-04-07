@@ -85,3 +85,20 @@ button:hover {
       grid-template-columns: 1fr; /* Stacks columns on mobile */
   }
 }
+
+.avatar-preview {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+  margin-bottom: 1rem;
+}
+
+/* Extra style for SVG avatar fallback */
+.avatar-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ecf0f1;
+}

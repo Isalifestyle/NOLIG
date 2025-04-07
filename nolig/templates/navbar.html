@@ -1,17 +1,57 @@
+<style>
+.navbar-avatar-link {
+  margin-right: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.navbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+  background-color: white;
+}
+
+.avatar-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--accent);
+}
+</style>
+
 <nav class="navbar">
-    <a href="/" class="logo">NOLIG</a>
-  
-    <form class="search-bar" method="GET" action="{% url 'home' %}">
-      <input type="text" name="q" placeholder="Search discussions..." />
-    </form>
-  
-    <div class="nav-user">
-      {% if request.user.is_authenticated %}
-          <span>Hello, <a href="{% url 'user-settings' %}">{{ request.user.username }}</a></span>
-          <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
-      {% else %}
-          <a href="{% url 'login' %}" class="login-btn">Login</a>
-      {% endif %}
-    </div>
-  </nav>
-  
+  <a href="/" class="logo">NOLIG</a>
+
+  <form class="search-bar" method="GET" action="{% url 'home' %}">
+    <input type="text" name="q" placeholder="Search discussions..." />
+  </form>
+
+  <div class="nav-user">
+    {% if request.user.is_authenticated %}
+        <!-- Avatar -->
+        <a href="{% url 'user-settings' %}" class="navbar-avatar-link">
+          {% if request.user.profile.avatar %}
+              <img src="{{ request.user.profile.avatar.url }}" class="navbar-avatar" alt="Your Avatar" />
+          {% else %}
+              <div class="navbar-avatar avatar-svg">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                  <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
+                </svg>
+                
+              </div>
+          {% endif %}
+        </a>
+        <span>Hello, <a href="{% url 'user-settings' %}">{{ request.user.username }}</a></span>
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}" class="login-btn">Login</a>
+    {% endif %}
+  </div>
+</nav>
