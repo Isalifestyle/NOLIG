@@ -1,3 +1,4 @@
+{% load static %}
 <style>
   .comment {
     background-color: #f5f9fc;
@@ -67,6 +68,12 @@
   </style>
   
   <div class="comment">
+      <!-- Profile Avatar -->
+  {% if message.user.profile.avatar %}
+  <img src="{{ message.user.profile.avatar.url }}" alt="Avatar" class="avatar" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); margin-right: 0.5rem; float: left;">
+{% else %}
+  <img src="{% static 'base/img/default_avatar.png' %}" alt="Default Avatar" class="avatar" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); margin-right: 0.5rem; float: left;">
+{% endif %}
     <small>
       <a href="{% url 'user_profile' message.user.id %}">
         @{{ message.user.username }}

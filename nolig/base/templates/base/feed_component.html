@@ -1,3 +1,4 @@
+{% load static %}
 <style>
 .discussion-card {
     background-color: #e9f2fb;
@@ -33,7 +34,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width:100px;
 }
 
 .discussion-meta {
@@ -42,7 +42,6 @@
     font-size: 0.85rem;
     color: #666;
     margin-bottom: 0.5rem;
-    max-width:60px;
 }
 
 .avatar {
@@ -84,9 +83,12 @@
 
     <div class="discussion-header">
         <div class="discussion-meta">
-            {% if discussion.host.profile.avatar.url %}
-                <img src="{{ discussion.host.profile.avatar.url }}" alt="Avatar" class="avatar">
-            {% endif %}
+
+            {% if discussion.host.profile.avatar %}
+            <img src="{{ discussion.host.profile.avatar.url }}" alt="Avatar" class="avatar">
+        {% else %}
+            <img src="{% static 'base/img/default_avatar.png' %}" alt="Default Avatar" class="avatar">
+        {% endif %}
             <span>@{{ discussion.host.username }}</span>
         </div>
 

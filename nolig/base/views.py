@@ -78,7 +78,6 @@ def discussion(request, pk):
     }
     return render(request, 'base/discussion.html', context)
 
-
 @login_required(login_url='login')
 def createDiscussion(request):
     form = DiscussionForm()
@@ -89,14 +88,16 @@ def createDiscussion(request):
             topic_name = form.cleaned_data['topic']
             topic, created = Topic.objects.get_or_create(name=topic_name)
 
+            # ✅ Now we can safely create the discussion instance
             discussion = form.save(commit=False)
             discussion.host = request.user
-            discussion.topic = topic
+            discussion.topic = topic  # this is a Topic instance now
             discussion.save()
+
             return redirect('home')
 
-    context = {'form': form}
-    return render(request, 'base/discussion_form.html', context)
+    return render(request, 'base/discussion_form.html', {'form': form})
+
 
 @login_required(login_url='login')
 def createFlashcard(request):

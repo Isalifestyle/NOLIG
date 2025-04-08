@@ -72,7 +72,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(
         upload_to='avatars/', 
-        default='base/img/default_avatar.png',  # relative to MEDIA_ROOT
+        default='default_avatar.png',  # relative to MEDIA_ROOT
         blank=True
     )
     def __str__(self):

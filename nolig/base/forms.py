@@ -3,15 +3,10 @@ from .models import Discussion, FlashCard, FlashcardSet
 from django import forms
 
 class DiscussionForm(forms.ModelForm):
-    topic = forms.CharField(
-        max_length=200,
-        help_text="Enter a topic (e.g., Math, History...)"
-    )
-
+    topic = forms.CharField()  # override default ForeignKey behavior
     class Meta:
         model = Discussion
-        fields = ['name', 'topic', 'description']
-
+        fields = ['name', 'description']  # 🛑 DO NOT include 'topic' here
 class FlashcardForm(ModelForm):
     class Meta:
         model = FlashCard
