@@ -19,13 +19,14 @@
 .discussion-card-link {
     position: absolute;
     inset: 0;
-    z-index: 2; /* Make sure it’s above background but below other content */
+    z-index: 1; /* Lower z-index to ensure clickable elements are above */
     text-decoration: none;
     color: inherit;
-    display: block;       /* Required for full area */
+    display: block;
 }
-/* Ensure content inside the card is above the link layer */
-.discussion-card > *:not(.discussion-card-link) {
+
+/* Ensure clickable elements are above the overlay link */
+.discussion-card a:not(.discussion-card-link) {
     position: relative;
     z-index: 3;
 }
@@ -86,10 +87,10 @@
 
             {% if discussion.host.profile.avatar %}
             <img src="{{ discussion.host.profile.avatar.url }}" alt="Avatar" class="avatar">
-        {% else %}
+            {% else %}
             <img src="{% static 'base/img/default_avatar.png' %}" alt="Default Avatar" class="avatar">
-        {% endif %}
-            <span>@{{ discussion.host.username }}</span>
+            {% endif %}
+            <a href="{% url 'user-profile' discussion.host.id %}" onclick="event.stopPropagation();">@{{ discussion.host.username }}</a>
         </div>
 
         {% if request.user == discussion.host %}
@@ -112,4 +113,3 @@
     </div>
 </div>
 {% endfor %}
-

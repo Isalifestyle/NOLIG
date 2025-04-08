@@ -1,9 +1,8 @@
-.flashcard-container {
+#flashcard-container {
     /* A moderate, Quizlet-style width & height */
-    width: 420px;
+    width: 320px;
     height: 260px;
     
-    margin: 20px auto;
     perspective: 1000px;
     border-radius: 16px;
     overflow: hidden;  /* hides overflow during flips/animations */
@@ -34,7 +33,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 75%;
 
     /* Flex layout to center content both horizontally and vertically */
     display: flex;
