@@ -54,14 +54,18 @@
     background-color: #2980b9;
 }
 </style>
-
-<div class="form-wrapper">
-    <h2>Create Discussion</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Create" />
-    </form>
-</div>
+<style>
+    /* your existing styles... */
+  </style>
+  
+  <div class="form-wrapper">
+      <h2>{{ form.instance.pk|yesno:"Update Discussion,Create Discussion" }}</h2>
+  
+      <form method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" value="{{ form.instance.pk|yesno:'Update,Create' }}" />
+      </form>
+  </div>
 
 {% endblock %}

@@ -128,15 +128,21 @@ def createFlashcardSet(request):
 @login_required(login_url='login')
 def updateDiscussion(request, pk):
     discussion = Discussion.objects.get(id=pk)
-    form = DiscussionForm(instance=discussion)
 
     if request.user != discussion.host:
         return HttpResponse('You are not allowed here!')
 
+    form = DiscussionForm(instance=discussion)
+
     if request.method == 'POST':
         form = DiscussionForm(request.POST, instance=discussion)
         if form.is_valid():
-            form.save()
+            topic_name = form.cleaned_data['topic']
+            topic, created = Topic.objects.get_or_create(name=topic_name)
+            
+            discussion = form.save(commit=False)
+            discussion.topic = topic  # manually assign topic instance
+            discussion.save()
             return redirect('home')
 
     context = {'form': form}
