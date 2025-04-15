@@ -54,10 +54,8 @@
     background-color: #2980b9;
 }
 </style>
-<style>
-    /* your existing styles... */
-  </style>
-  
+
+  <a href="{% url 'home' %}">← Back to Home Page</a>
   <div class="form-wrapper">
       <h2>{{ form.instance.pk|yesno:"Update Discussion,Create Discussion" }}</h2>
   
