@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+
 <html lang="en">
 
 <head>
@@ -9,9 +10,26 @@
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="{% static 'css/flashcards.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> -->
+
 
     <title>NOLIG</title>
     <style>
+                .nav-button {
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        border-radius: var(--border-radius);
+        padding: 0.5rem 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        }
+
+        .nav-button:hover {
+        background-color: #2980b9;
+        }
+
         .profile-details {
             font-family: Arial, sans-serif;
             padding: 20px;
@@ -60,6 +78,8 @@
     <div class="main-container">
         {% include 'navbar.html' %}
 
+          
+
         {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -75,3 +95,24 @@
 </body>
 
 </html>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const isDark = localStorage.getItem("theme") === "dark";
+  if (isDark) {
+    document.body.classList.add("dark-mode");
+    const icon = document.querySelector(".dark-toggle i");
+    icon.classList.replace('fa-moon', 'fa-sun');
+  }
+});
+
+function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+  const icon = document.querySelector('.dark-toggle i');
+  icon.classList.toggle('fa-moon');
+  icon.classList.toggle('fa-sun');
+
+  const isDark = document.body.classList.contains('dark-mode');
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+}
+  </script>
+  

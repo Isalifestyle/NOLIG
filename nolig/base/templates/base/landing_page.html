@@ -1,0 +1,171 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOLIG Landing Page</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'base/img/favicon.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'base/img/favicon.png' %}">
+  <link rel="shortcut icon" href="{% static 'base/img/favicon.png' %}">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <!-- AOS Animations -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --accent: #3498db;
+      --background: #f9f9f9;
+      --text: #2c3e50;
+      --text-light: #ecf0f1;
+      --border-radius: 12px;
+      --font-stack: 'Inter', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-stack);
+      margin: 0;
+      background-color: var(--background);
+      color: var(--text);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body.dark-mode {
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--text-light);
+      text-decoration: none;
+    }
+
+    .nav-buttons a {
+      color: white;
+      margin-left: 1rem;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .dark-toggle {
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 70px); /* Adjust for navbar height */
+  padding: 2rem;
+  background-image: url("{% static 'base/img/hero-bg.png' %}");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  text-align: center;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.hero * {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+body:not(.dark-mode) .hero * {
+  color: black;
+}
+
+body.dark-mode .hero * {
+  color: white;
+}
+.hero h1 {
+  font-size: 3rem;
+  margin: 0 0 1rem 0;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+    .hero a {
+      padding: 0.75rem 1.5rem;
+      background-color: var(--accent);
+      color: white;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0.5rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .hero a:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="logo" href="#">NOLIG</a>
+    <div class="nav-buttons">
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'register' %}">Register</a>
+      <span class="dark-toggle" onclick="toggleDarkMode()">
+        <i class="fas fa-moon"></i>
+      </span>
+    </div>
+  </nav>
+
+  <section class="hero" data-aos="fade-up">
+    <h1>Welcome to NOLIG</h1>
+    <p>Your hub for discussions, flashcards, and collaborative learning.</p>
+    <div>
+      <a href="{% url 'home' %}">Explore Discussions</a>
+      <a href="{% url 'flashcard-feed' %}">View Flashcards</a>
+    </div>
+  </section>
+
+  <!-- Dark mode toggle -->
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      const icon = document.querySelector('.dark-toggle i');
+      icon.classList.toggle('fa-moon');
+      icon.classList.toggle('fa-sun');
+    }
+  </script>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init();</script>
+</body>
+</html>

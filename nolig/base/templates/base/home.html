@@ -27,7 +27,21 @@
     box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-    
+.btn-create {
+    display: inline-block;
+    background-color: var(--accent);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-create:hover {
+    background-color: #2980b9;
+  }
 </style>
 
 <div class="home-container">
@@ -38,7 +52,7 @@
 
     <div>
         <h5>{{discussion_count}} discussions available</h5>
-        <a href="{% url 'create-discussion' %}">Create Discussion</a>
+        <a href="{% url 'create-discussion' %}" class="btn-create">+ Create Discussion</a>
 
         {% include 'base/feed_component.html' %}
     </div>

@@ -8,6 +8,7 @@ from .models import Discussion, Topic, FlashcardSet, Message, FlashCard
 from .forms import DiscussionForm, FlashcardForm, FlashcardSetForm
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import get_object_or_404
+from .models import Profile
 
 
 def home(request):
@@ -257,11 +258,12 @@ def flashcardFeed(request):
 
 def userProfile(request, user_id):
     user = get_object_or_404(User, id=user_id)
-    context = {
-        'user': user
-    }
-    return render(request, 'base/user_settings.html', context)
+    
+    # If user is looking at their own profile, redirect to the editable settings page
+    if request.user.is_authenticated and request.user.id == user.id:
+        return redirect('user-settings')
 
+    return render(request, 'base/public_profile.html', {'user': user})
 def loginPage(request):
     page = 'login'
 
@@ -292,7 +294,7 @@ def loginPage(request):
 #Logout
 def logoutUser(request):
     logout(request)
-    return redirect('home')
+    return redirect('landing')
 
 
 @login_required(login_url='login')
@@ -306,6 +308,7 @@ def user_settings(request):
             if avatar:
                 profile.avatar = avatar
                 profile.save()
+
         elif 'update_password' in request.POST:
             new_password = request.POST.get('password')
             if new_password:
@@ -314,7 +317,17 @@ def user_settings(request):
                 login(request, request.user)  # Optional: re-login
                 messages.success(request, "Password updated successfully.")
 
-    return render(request, 'base/user_settings.html', {'user': request.user})
+        elif 'update_bio' in request.POST:
+            new_bio = request.POST.get('bio', '')
+            profile.bio = new_bio
+            profile.save()
+            messages.success(request, "Bio updated successfully.")
+
+    return render(request, 'base/user_settings.html', {
+        'user': request.user,
+        'profile': profile  # ✅ Pass profile to access bio and avatar
+    })
+
 
 @login_required
 def delete_account(request):
@@ -350,3 +363,14 @@ def load_more_replies(request):
 
     # Render a partial HTML template with these replies
     return render(request, 'base/replies_partial.html', {'replies': replies})
+
+
+def landing_page(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    return render(request, 'base/landing_page.html')
+
+def root_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    return render(request, 'base/landing_page.html')

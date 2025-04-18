@@ -92,7 +92,13 @@
                   
             </div>
         {% endif %}
-    
+        <form method="POST">
+            {% csrf_token %}
+            <label for="bio">Bio / Description:</label><br>
+            <textarea name="bio" id="bio" rows="3" style="width: 100%; max-width: 500px; border-radius: var(--border-radius); padding: 0.5rem; border: 1px solid #ccc;">{{ user.profile.bio }}</textarea>
+            <br>
+            <button type="submit" name="update_bio">Update Bio</button>
+          </form>
 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}

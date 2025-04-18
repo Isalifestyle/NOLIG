@@ -23,8 +23,57 @@
   width: 32px;
   height: 32px;
   border: 2px solid var(--accent);
+  
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary);
+  padding: 1rem 2rem;
+  color: white;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--text-light);
+}
+
+.search-bar input {
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--border-radius);
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  width: 250px;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logout-btn,
+.login-btn {
+  background-color: var(--accent);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover,
+.login-btn:hover {
+  background-color: #2980b9;
 }
 </style>
+
 
 <nav class="navbar">
   <a href="/" class="logo">NOLIG</a>
@@ -53,5 +102,28 @@
     {% else %}
         <a href="{% url 'login' %}" class="login-btn">Login</a>
     {% endif %}
+    <span class="dark-toggle" onclick="toggleDarkMode()" style="cursor:pointer; margin-left: 1rem;">
+      <i class="fas fa-moon"></i>
+    </span>
   </div>
 </nav>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const isDark = localStorage.getItem("theme") === "dark";
+    if (isDark) {
+      document.body.classList.add("dark-mode");
+      const icon = document.querySelector(".dark-toggle i");
+      icon.classList.replace('fa-moon', 'fa-sun');
+    }
+  });
+  
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const icon = document.querySelector('.dark-toggle i');
+    icon.classList.toggle('fa-moon');
+    icon.classList.toggle('fa-sun');
+  
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  }
+    </script>

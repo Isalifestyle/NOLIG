@@ -6,6 +6,8 @@ from .views import *
 
 
 urlpatterns = [
+    path('', views.landing_page, name='landing'),
+    path('home/', views.home, name='home'),  # 🏠 Give home a dedicated route
 
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
@@ -14,9 +16,10 @@ urlpatterns = [
     path('settings/', views.user_settings, name='user-settings'),
     path('delete-account/', views.delete_account, name='delete_account'),
     path('flashcards/<int:set_id>/', views.flashcard_set_detail, name='flashcard-set-detail'),
+path('flashfeed/', views.flashcardFeed, name='flashcard-feed'),
 
 
-    path('', views.home, name='home'),
+   
     path('discussion/<str:pk>', views.discussion, name='discussion'),
     path('delete-discussion/<int:pk>/', views.deleteDiscussion, name='delete-discussion'),
     path('load_more_replies/', views.load_more_replies, name='load-more-replies'),

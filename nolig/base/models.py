@@ -75,6 +75,8 @@ class Profile(models.Model):
         default='default_avatar.png',  # relative to MEDIA_ROOT
         blank=True
     )
+    bio = models.TextField(blank=True, null=True)  # 👈 Add this if you want a short bio
+
     def __str__(self):
         return self.user.username
     

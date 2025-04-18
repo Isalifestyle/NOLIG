@@ -1,4 +1,9 @@
 <style>
+       :root {
+        --accent: #3498db;
+        --border-radius: 8px;
+        --text-dark: #2c3e50;
+    }
     .flashcard-set {
         background-color: #e9f2fb;
         border-radius: var(--border-radius);
@@ -16,47 +21,82 @@
         cursor: pointer;
     }
     
-    /* Full-card clickable link */
     .flashcard-set a.full-card-link {
         position: absolute;
         inset: 0;
         z-index: 1;
     }
     
-    /* Elevate inner content above the full-card link */
     .flashcard-set > *:not(.full-card-link) {
         position: relative;
         z-index: 2;
     }
     
     .flashcard-set h3 {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin: 0 0 0.5rem 0;
-    display: inline-block; /* 👈 Auto-size to content */
-}
-
-.flashcard-set h3 a {
-    color: var(--text-dark);
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin: 0 0 0.5rem 0;
+        display: inline-block;
+    }
+    
+    .flashcard-set h3 a {
+        color: var(--text-dark);
+        text-decoration: none;
+        z-index: 3;
+        position: relative;
+    }
+    
+    .flashcard-set h3 a:hover {
+        text-decoration: underline;
+    }
+    
+    .flashcard-set p {
+        margin: 0.25rem 0;
+        font-size: 0.95rem;
+        color: #444;
+        display: inline-block;
+    }
+    
+    /* ✅ FIXED: Define nav-button styling outside of other classes */
+    .nav-button {
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        border-radius: var(--border-radius);
+        padding: 0.5rem 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+        margin-right: 0.5rem;
+    }
+    .btn-primary {
+    display: inline-block;
+    background-color: var(--accent);
+    color: white;
+    padding: 0.6rem 1.4rem;
+    font-weight: 600;
+    font-size: 1rem;
     text-decoration: none;
-    z-index: 3;
-    position: relative;
-}
+    border-radius: var(--border-radius);
+    border: none;
+    transition: background-color 0.3s ease;
+  }
 
-.flashcard-set h3 a:hover {
-    text-decoration: underline;
-}
-
-.flashcard-set p {
-    margin: 0.25rem 0;
-    font-size: 0.95rem;
-    color: #444;
-    display: inline-block; /* 👈 Optional: only if you want it to shrink to text too */
-}
+  .btn-primary:hover {
+    background-color: #2980b9;
+  }
     </style>
+    
+    
     <h2>📚 Flashcard Feed</h2>
-    <a href="{% url 'create-flashcard-set' %}" class="btn">+ Create Flashcard Set</a>
+
+    <a href="{% url 'create-flashcard-set' %}" class="btn-primary">+ Create Flashcard Set</a>
     <br><br>
+       <div style="display: flex; gap: 1rem; margin: 1rem 0;">
+        <button onclick="window.history.back()" class="nav-button">← Back</button>
+        <button onclick="window.history.forward()" class="nav-button">Forward →</button>
+      </div>
     
     {% for flashcard_set in flashcard_sets %}
         <div class="flashcard-set">
@@ -79,4 +119,5 @@
     {% empty %}
         <p>No flashcard sets available.</p>
     {% endfor %}
-    
+
+ 

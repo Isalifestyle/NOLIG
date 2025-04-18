@@ -44,11 +44,28 @@
     }
 
     .form-wrapper input[type="submit"]:hover {
-        background-color: #2980b9;
+        background-color: #2980b9;}
+
+         .btn-back {
+        display: inline-block;
+        background-color: #e0e0e0; /* softer than primary buttons */
+        color: #333;
+        padding: 0.5rem 1.2rem;
+        font-weight: 500;
+        border-radius: var(--border-radius);
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+    }
+
+    .btn-back:hover {
+        background-color: #d5d5d5;
     }
 </style>
-<a href="{% url 'home' %}">← Back to Home Page</a>
-<div class="form-wrapper">
+
+  
+<a href="{% url 'home' %}" class="btn-back">← Back to Home Page</a><div class="form-wrapper">
     <h2>Create or Update</h2>
     <form method="POST" action="">
         {% csrf_token %}

@@ -1,0 +1,57 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  .public-profile {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+  }
+
+  .public-profile img.avatar {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .public-profile h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .public-profile p {
+    color: #555;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+  }
+
+  .public-profile small {
+    color: #888;
+  }
+</style>
+
+<div class="public-profile" data-aos="zoom-in">
+  {% if user.profile.avatar %}
+    <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="avatar">
+  {% else %}
+    <img src="{% static 'base/img/default_avatar.png' %}" alt="Default Avatar" class="avatar">
+  {% endif %}
+
+  <h2>@{{ user.username }}</h2>
+  <small>Joined {{ user.date_joined|date:"F Y" }}</small>
+
+  {% if user.profile.bio %}
+    <p>{{ user.profile.bio }}</p>
+  {% else %}
+    <p><em>This user hasn’t written a bio yet.</em></p>
+  {% endif %}
+</div>
+{% endblock %}

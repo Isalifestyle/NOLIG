@@ -1,3 +1,11 @@
+
+
+body.dark-mode {
+  --background: #121212;
+  --text: #f0f0f0;
+  --primary: #1f1f1f;
+  --accent: #2980b9;
+}
 :root {
     --primary: #2c3e50;
     --secondary: #34495e;
@@ -7,98 +15,66 @@
     --text-light: #ecf0f1;
     --border-radius: 12px;
     --font-stack: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --border-radius: 12px;
   }
 
   *,
 *::before,
 *::after {
     box-sizing: border-box;
-}
-  body {
-    margin: 0;
-    font-family: var(--font-stack);
-    background-color: var(--background);
-    color: var(--text-dark);
+}body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
 }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--primary);
-    color: white;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+/* Main containers */
+body.dark-mode .main-container,
+body.dark-mode .home-container > div,
+body.dark-mode .form-wrapper,
+body.dark-mode .settings-container,
+body.dark-mode .comment {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  border-color: #333;
 }
 
-.logo {
-    font-weight: bold;
-    font-size: 1.5rem;
-    text-decoration: none;
-    color: var(--text-light);
+/* Navbar */
+body.dark-mode .navbar {
+  background-color: #1f1f1f;
 }
 
-.search-bar input {
-    padding: 0.5rem;
-    border-radius: var(--border-radius);
-    border: none;
-    width: 250px;
+body.dark-mode .logo,
+body.dark-mode .navbar a,
+body.dark-mode .nav-user span {
+  color: #ffffff !important;
 }
 
-.nav-user a {
-    color: var(--text-light);
-    margin-left: 1rem;
-    text-decoration: none;
+/* Buttons */
+body.dark-mode .logout-btn,
+body.dark-mode .login-btn,
+body.dark-mode .btn-create,
+body.dark-mode .nav-button {
+  background-color: #333 !important;
+  color: white !important;
 }
 
-.main-container {
-  width: 100%;
-  max-width: 100%;
-  padding: 1rem 2rem;
-  box-sizing: border-box;
+body.dark-mode .logout-btn:hover,
+body.dark-mode .login-btn:hover,
+body.dark-mode .btn-create:hover,
+body.dark-mode .nav-button:hover {
+  background-color: #555 !important;
 }
 
-
-button {
-    background-color: var(--accent);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
+/* Inputs and forms */
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+  background-color: #2b2b2b;
+  color: #f0f0f0;
+  border: 1px solid #444;
 }
 
-button:hover {
-    background-color: #2980b9;
-}
-
-.home-container {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 20px;
-  padding-top: 2rem;
-  width: 100%;
-}
-
-@media (max-width: 1024px) {
-  .home-container {
-      grid-template-columns: 1fr; /* Stacks columns on mobile */
-  }
-}
-
-.avatar-preview {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--accent);
-  margin-bottom: 1rem;
-}
-
-/* Extra style for SVG avatar fallback */
-.avatar-svg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ecf0f1;
+/* Links */
+body.dark-mode a {
+  color: #66bfff;
 }
