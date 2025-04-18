@@ -5,18 +5,9 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Discussion, Topic, FlashcardSet, Message, FlashCard
-from django.http import HttpResponse
 from .forms import DiscussionForm, FlashcardForm, FlashcardSetForm
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import FlashcardSet, FlashCard, Profile
-from .serializers import FlashcardSetSerializer, FlashCardSerializer
-from django.http import HttpResponseBadRequest
-
 
 
 def home(request):
@@ -218,31 +209,6 @@ def deleteDiscussion(request, pk):
         return redirect('home')
     return render(request, 'base/delete.html', {'obj':discussion})
 
-# API view to get all flashcard sets
-@api_view(['GET'])
-def flashcard_sets(request):
-    sets = FlashcardSet.objects.all()
-    serializer = FlashcardSetSerializer(sets, many=True)
-    return Response(serializer.data)
-
-# API view to get all flashcards in a set
-@api_view(['GET'])
-def flashcard_detail(request, set_id):
-    flashcard_set = get_object_or_404(FlashcardSet, id=set_id)
-    flashcards = flashcard_set.flashcards.all()
-    serializer = FlashCardSerializer(flashcards, many=True)
-    return Response(serializer.data)
-
-# ViewSets for the API (used for Django REST Framework's router)
-class FlashcardSetViewSet(viewsets.ModelViewSet):
-    queryset = FlashcardSet.objects.all()
-    serializer_class = FlashcardSetSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-class FlashCardViewSet(viewsets.ModelViewSet):
-    queryset = FlashCard.objects.all()
-    serializer_class = FlashCardSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 def registerPage(request):
@@ -283,17 +249,13 @@ def deleteMessage(request, pk):
     return render(request, 'base/delete.html', {'obj': message})
 
 
-def flashcard_feed(request):
-    if request.user.is_authenticated:
-        # Only show flashcard sets created by the logged-in user
-        flashcard_sets = FlashcardSet.objects.filter(user=request.user).order_by('-created')
-    else:
-        # Show all flashcard sets if the user is not logged in
-        flashcard_sets = FlashcardSet.objects.all().order_by('-created')
+def flashcardFeed(request):
+    flashcard_sets = FlashcardSet.objects.all().order_by('-created')
     
-    return render(request, 'base/flashcard_feed.html', {'flashcard_sets': flashcard_sets})
+    return render(request, 'base/flashcard_page.html', {'flashcard_sets': flashcard_sets})
 
-def user_profile(request, user_id):
+
+def userProfile(request, user_id):
     user = get_object_or_404(User, id=user_id)
     context = {
         'user': user
