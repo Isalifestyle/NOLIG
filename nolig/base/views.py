@@ -255,6 +255,10 @@ def flashcardFeed(request):
     
     return render(request, 'base/flashcard_page.html', {'flashcard_sets': flashcard_sets})
 
+def discussionPage(request):
+    discussions = Discussion.objects.all().order_by('-created')
+    
+    return render(request, 'base/discussion_page.html', {'discussions': discussions})
 
 def userProfile(request, user_id):
     user = get_object_or_404(User, id=user_id)

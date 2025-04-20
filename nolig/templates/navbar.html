@@ -81,7 +81,10 @@
   <form class="search-bar" method="GET" action="{% url 'home' %}">
     <input type="text" name="q" placeholder="Search discussions..." />
   </form>
-
+  <div class="nav-links">
+    <a href="{% url 'discussion-page' %}">Discussions</a>
+    <a href="{% url 'flashcard-feed' %}">Flashcards</a>
+  </div>
   <div class="nav-user">
     {% if request.user.is_authenticated %}
         <!-- Avatar -->

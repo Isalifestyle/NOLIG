@@ -16,8 +16,8 @@ urlpatterns = [
     path('settings/', views.user_settings, name='user-settings'),
     path('delete-account/', views.delete_account, name='delete_account'),
     path('flashcards/<int:set_id>/', views.flashcard_set_detail, name='flashcard-set-detail'),
-path('flashfeed/', views.flashcardFeed, name='flashcard-feed'),
-
+    path('flashfeed/', views.flashcardFeed, name='flashcard-feed'),
+    path('discussion-page/', views.discussionPage, name='discussion-page'),
 
    
     path('discussion/<str:pk>', views.discussion, name='discussion'),

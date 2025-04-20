@@ -1,24 +1,4 @@
-
-{% extends 'main.html' %}
-<style>
-    .btn-back {
-      display: inline-block;
-      background-color: #e0e0e0; /* softer than primary buttons */
-      color: #333;
-      padding: 0.5rem 1.2rem;
-      font-weight: 500;
-      border-radius: var(--border-radius);
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-    }
-  
-    .btn-back:hover {
-      background-color: #d5d5d5;
-    }
-  </style>
-  
+{% extends 'main.html' %}  
 {% block content %}
 <a href="{% url 'home' %}" class="btn-back">← Back to Home Page</a>
 

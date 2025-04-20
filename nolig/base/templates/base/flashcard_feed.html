@@ -93,10 +93,6 @@
 
     <a href="{% url 'create-flashcard-set' %}" class="btn-primary">+ Create Flashcard Set</a>
     <br><br>
-       <div style="display: flex; gap: 1rem; margin: 1rem 0;">
-        <button onclick="window.history.back()" class="nav-button">← Back</button>
-        <button onclick="window.history.forward()" class="nav-button">Forward →</button>
-      </div>
     
     {% for flashcard_set in flashcard_sets %}
         <div class="flashcard-set">

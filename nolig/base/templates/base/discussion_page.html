@@ -1,0 +1,9 @@
+{% extends 'main.html' %}  
+{% block content %}
+<div>
+    <a href="{% url 'home' %}" class="btn-back">← Back to Home Page</a>
+    <h5>{{discussion_count}} discussions available</h5>
+    <a href="{% url 'create-discussion' %}" class="btn-create">+ Create Discussion</a>
+    {% include 'base/feed_component.html' %}
+</div>
+{% endblock %}
