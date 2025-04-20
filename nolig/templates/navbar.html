@@ -68,10 +68,31 @@
   transition: background-color 0.3s ease;
 }
 
+.nav-button {
+  background-color: var(--accent);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: #2980b9;
+}
+
 .logout-btn:hover,
 .login-btn:hover {
   background-color: #2980b9;
 }
+
+.nav-user-link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+
 </style>
 
 
@@ -82,8 +103,8 @@
     <input type="text" name="q" placeholder="Search discussions..." />
   </form>
   <div class="nav-links">
-    <a href="{% url 'discussion-page' %}">Discussions</a>
-    <a href="{% url 'flashcard-feed' %}">Flashcards</a>
+    <a href="{% url 'discussion-page' %}" class="nav-button">Discussions</a>
+    <a href="{% url 'flashcard-feed' %}" class="nav-button">Flashcards</a>
   </div>
   <div class="nav-user">
     {% if request.user.is_authenticated %}
@@ -100,7 +121,7 @@
               </div>
           {% endif %}
         </a>
-        <span>Hello, <a href="{% url 'user-settings' %}">{{ request.user.username }}</a></span>
+        <span>Hello, <a href="{% url 'user-settings' %}" class="nav-user-link">{{ request.user.username }}</a></span>
         <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
     {% else %}
         <a href="{% url 'login' %}" class="login-btn">Login</a>
