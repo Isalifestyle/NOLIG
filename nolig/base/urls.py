@@ -41,5 +41,9 @@ urlpatterns = [
     path('update-flashcard-set/<str:pk>', views.updateFlashcardSet, name="update-flashcard-set"),
     path('delete-flashcard-set/<str:pk>', views.deleteFlashcardSet, name="delete-flashcard-set"),
 
+    path('api/flashcard-sets/', flashcard_sets, name='flashcard-sets'),
+    path('api/flashcard-sets/<int:set_id>/', flashcard_detail, name='flashcard-detail'),
+    path('api/flashcards/', flashcardFeed, name='flashcard-feed'),
+
     
 ]
