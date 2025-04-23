@@ -7,12 +7,13 @@
     .flashcard-set {
         background-color: #e9f2fb;
         border-radius: var(--border-radius);
-        padding: 1rem 1.5rem;
+        padding: 1rem 1.2rem;
         margin-bottom: 1rem;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         position: relative;
         transition: box-shadow 0.3s ease, background-color 0.3s ease;
         overflow: hidden;
+        max-width: 1000px;
     }
     
     .flashcard-set:hover {
@@ -87,8 +88,6 @@
     }
 </style>
     
-    
-    <h2>📚 Flashcard Feed</h2>
 
     <a href="{% url 'create-flashcard-set' %}" class="btn-primary">+ Create Flashcard Set</a>
     <br><br>

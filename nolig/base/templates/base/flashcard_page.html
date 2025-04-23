@@ -17,8 +17,16 @@
     .btn-back:hover {
         background-color: #d0dae2;
     }
+    
+    .flashcard-set, .btn-primary, h2 {
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+
 </style>
+
 <a href="{% url 'home' %}" class="btn-back">← Back to Home Page</a>
 
+<h2>📚 Flashcard Feed</h2>
 {% include 'base/flashcard_feed.html' %}
 {% endblock %}

@@ -22,15 +22,17 @@ def home(request):
     # Filter the flashcard sets based on whether the user is logged in or not
     if request.user.is_authenticated:
         flashcard_sets = FlashcardSet.objects.filter(user=request.user).order_by('-created')  # Logged-in user sees their sets
+        discussions = Discussion.objects.filter(host=request.user).order_by('-created')
     else:
         flashcard_sets = FlashcardSet.objects.all().order_by('-created')  # Non-logged-in user sees all sets
-
-    discussions = Discussion.objects.filter(
-        Q(topic__name__icontains=q) |
-        Q(name__icontains=q) |
-        Q(description__icontains=q)
-    )
-
+        discussions = Discussion.objects.all().order_by('-created')
+    if q:
+        discussions = discussions.filter(
+            Q(topic__name__icontains=q) |
+            Q(name__icontains=q) |
+            Q(description__icontains=q)
+        )
+    
     topics = Topic.objects.all()
     discussion_count = discussions.count()
     room_messages = Message.objects.filter(Q(discussion__topic__name__icontains=q))
